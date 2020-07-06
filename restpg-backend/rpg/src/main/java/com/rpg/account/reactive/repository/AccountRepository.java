@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 import java.util.UUID;
 
 public interface AccountRepository {
-  Mono<Boolean> exists(Account account);
+  Mono<Boolean> existsByUsernameOrEmail(String username, String email);
 
   Mono<UUID> store(Account account);
 }

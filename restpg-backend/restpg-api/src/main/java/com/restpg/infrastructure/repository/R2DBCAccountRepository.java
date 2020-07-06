@@ -18,14 +18,14 @@ public class R2DBCAccountRepository implements AccountRepository {
   }
 
   @Override
-  public Mono<Boolean> exists(Account account) {
+  public Mono<Boolean> existsByUsernameOrEmail(String username, String email) {
     return databaseClient
         .execute(
             "SELECT COUNT(*) FROM account "
                 + "WHERE UPPER(TRIM(username)) = :username "
-                + "AND UPPER(TRIM(email)) = :email")
-        .bind("username", account.username().trim().toUpperCase())
-        .bind("email", account.email().trim().toUpperCase())
+                + "OR UPPER(TRIM(email)) = :email")
+        .bind("username", username.trim().toUpperCase())
+        .bind("email", email.trim().toUpperCase())
         .map((row, rowMetadata) -> row.get(0, Long.class))
         .first()
         .defaultIfEmpty(0L)
