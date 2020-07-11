@@ -2,11 +2,14 @@ package com.restpg.infrastructure.repository;
 
 import com.rpg.account.model.Account;
 import com.rpg.account.reactive.repository.AccountRepository;
+import io.r2dbc.spi.Row;
 import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;
+
+import static java.util.Objects.requireNonNull;
 
 @Repository
 public class R2DBCAccountRepository implements AccountRepository {
@@ -44,5 +47,22 @@ public class R2DBCAccountRepository implements AccountRepository {
         .fetch()
         .rowsUpdated()
         .map(rowsUpdated -> account.id());
+  }
+
+  @Override
+  public Mono<Account> findByEmail(String email) {
+    return databaseClient
+        .execute("SELECT * FROM account WHERE UPPER(TRIM(email)) = :email")
+        .bind("email", email.trim().toUpperCase())
+        .map(this::from)
+        .one();
+  }
+
+  private Account from(Row row) {
+    return Account.create(
+        UUID.fromString(requireNonNull(row.get("id", String.class))),
+        row.get("username", String.class),
+        row.get("email", String.class),
+        row.get("password", String.class));
   }
 }

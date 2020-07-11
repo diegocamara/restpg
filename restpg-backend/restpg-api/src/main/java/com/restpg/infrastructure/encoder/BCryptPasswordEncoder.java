@@ -16,4 +16,9 @@ public class BCryptPasswordEncoder implements com.rpg.account.encoder.PasswordEn
   public String encode(String plainText) {
     return passwordEncoder.encode(plainText);
   }
+
+  @Override
+  public boolean isValid(String plainPassword, String hashedPassword) {
+    return passwordEncoder.matches(plainPassword, hashedPassword);
+  }
 }

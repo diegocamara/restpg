@@ -1,9 +1,14 @@
 package com.restpg.application.web.model.request;
 
+import com.rpg.account.model.FindAccountParams;
 import lombok.Data;
 
 @Data
 public class LoginRequest {
-  private String username;
+  private String email;
   private String password;
+
+  public FindAccountParams toFindAccountParams() {
+    return FindAccountParams.create(email, password);
+  }
 }

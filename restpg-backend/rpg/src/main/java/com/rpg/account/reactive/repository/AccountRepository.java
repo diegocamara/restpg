@@ -9,4 +9,6 @@ public interface AccountRepository {
   Mono<Boolean> existsByUsernameOrEmail(String username, String email);
 
   Mono<UUID> store(Account account);
+
+  Mono<Account> findByEmail(String email);
 }

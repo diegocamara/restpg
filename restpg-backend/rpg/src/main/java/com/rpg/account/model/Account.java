@@ -20,6 +20,10 @@ public class Account {
     return new Account(UUID.randomUUID(), username, email, password);
   }
 
+  public static Account create(UUID id, String username, String email, String password) {
+    return new Account(id, username, email, password);
+  }
+
   public UUID id() {
     return id;
   }

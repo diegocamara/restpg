@@ -7,8 +7,9 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class AuthenticationManager implements ReactiveAuthenticationManager {
+
   @Override
   public Mono<Authentication> authenticate(Authentication authentication) {
-    return Mono.just(authentication).onErrorResume(throwable -> Mono.empty());
+    return Mono.just(authentication);
   }
 }

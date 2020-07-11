@@ -24,6 +24,7 @@ public class WebSecurityConfiguration {
   @Bean
   public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity serverHttpSecurity) {
     final var authenticationWebFilter = new AuthenticationWebFilter(reactiveAuthenticationManager);
+
     authenticationWebFilter.setServerAuthenticationConverter(serverAuthenticationConverter);
 
     return serverHttpSecurity
