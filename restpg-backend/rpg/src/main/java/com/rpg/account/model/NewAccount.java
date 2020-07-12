@@ -1,7 +1,5 @@
 package com.rpg.account.model;
 
-import static java.util.Objects.requireNonNull;
-
 public class NewAccount {
 
   private final String username;
@@ -15,10 +13,7 @@ public class NewAccount {
   }
 
   public static NewAccount create(String username, String email, String password) {
-    return new NewAccount(
-        requireNonNull(username, "username cannot be null"),
-        requireNonNull(email, "email cannot be null"),
-        requireNonNull(password, "password cannot be null"));
+    return new NewAccount(username, email, password);
   }
 
   public String username() {

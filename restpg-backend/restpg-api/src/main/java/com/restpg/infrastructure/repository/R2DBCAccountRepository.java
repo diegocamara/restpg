@@ -1,5 +1,6 @@
 package com.restpg.infrastructure.repository;
 
+import com.rpg.account.encoder.PasswordEncoder;
 import com.rpg.account.model.Account;
 import com.rpg.account.reactive.repository.AccountRepository;
 import io.r2dbc.spi.Row;
@@ -15,9 +16,11 @@ import static java.util.Objects.requireNonNull;
 public class R2DBCAccountRepository implements AccountRepository {
 
   private final DatabaseClient databaseClient;
+  private final PasswordEncoder passwordEncoder;
 
-  public R2DBCAccountRepository(DatabaseClient databaseClient) {
+  public R2DBCAccountRepository(DatabaseClient databaseClient, PasswordEncoder passwordEncoder) {
     this.databaseClient = databaseClient;
+    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
@@ -43,7 +46,7 @@ public class R2DBCAccountRepository implements AccountRepository {
         .value("id", account.id())
         .value("username", account.username())
         .value("email", account.email())
-        .value("password", account.password())
+        .value("password", passwordEncoder.encode(account.password()))
         .fetch()
         .rowsUpdated()
         .map(rowsUpdated -> account);

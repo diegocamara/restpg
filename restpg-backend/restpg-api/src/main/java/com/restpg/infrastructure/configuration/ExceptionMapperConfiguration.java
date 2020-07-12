@@ -1,6 +1,7 @@
 package com.restpg.infrastructure.configuration;
 
 import com.rpg.exception.IncorrectEmailOrPasswordException;
+import com.rpg.exception.PropertyException;
 import com.rpg.exception.UsernameOrEmailAlreadyExistsException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,7 @@ public class ExceptionMapperConfiguration {
       {
         put(UsernameOrEmailAlreadyExistsException.class, conflict());
         put(IncorrectEmailOrPasswordException.class, unauthorized());
+        put(PropertyException.class, unprocessableEntity());
       }
     };
   }
@@ -31,5 +33,10 @@ public class ExceptionMapperConfiguration {
 
   private Consumer<ServerWebExchange> conflict() {
     return serverWebExchange -> serverWebExchange.getResponse().setStatusCode(HttpStatus.CONFLICT);
+  }
+
+  private Consumer<ServerWebExchange> unprocessableEntity() {
+    return serverWebExchange ->
+        serverWebExchange.getResponse().setStatusCode(HttpStatus.UNPROCESSABLE_ENTITY);
   }
 }

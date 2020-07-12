@@ -1,6 +1,5 @@
 package com.rpg.account.reactive.feature.impl;
 
-import com.rpg.account.encoder.PasswordEncoder;
 import com.rpg.account.model.Account;
 import com.rpg.account.model.NewAccount;
 import com.rpg.account.reactive.feature.CreateAccount;
@@ -12,20 +11,15 @@ import reactor.core.publisher.Mono;
 public class CreateAccountImpl implements CreateAccount {
 
   private final AccountRepository accountRepository;
-  private final PasswordEncoder passwordEncoder;
 
-  public CreateAccountImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
+  public CreateAccountImpl(AccountRepository accountRepository) {
     this.accountRepository = accountRepository;
-    this.passwordEncoder = passwordEncoder;
   }
 
   @Override
   public Mono<Account> handle(NewAccount newAccount) {
     return Mono.just(
-            Account.create(
-                newAccount.username(),
-                newAccount.email(),
-                passwordEncoder.encode(newAccount.password())))
+            Account.create(newAccount.username(), newAccount.email(), newAccount.password()))
         .flatMap(
             accountToStore ->
                 Mono.just(accountToStore)
