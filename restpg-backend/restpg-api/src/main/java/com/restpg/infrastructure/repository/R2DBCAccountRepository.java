@@ -32,7 +32,7 @@ public class R2DBCAccountRepository implements AccountRepository {
                 + "OR UPPER(TRIM(email)) = :email")
         .bind("username", username.trim().toUpperCase())
         .bind("email", email.trim().toUpperCase())
-        .map((row, rowMetadata) -> row.get(0, Long.class))
+        .map(row -> row.get(0, Long.class))
         .first()
         .defaultIfEmpty(0L)
         .map(count -> count > 0);
@@ -57,6 +57,15 @@ public class R2DBCAccountRepository implements AccountRepository {
     return databaseClient
         .execute("SELECT * FROM account WHERE UPPER(TRIM(email)) = :email")
         .bind("email", email.trim().toUpperCase())
+        .map(this::from)
+        .one();
+  }
+
+  @Override
+  public Mono<Account> findById(UUID id) {
+    return databaseClient
+        .execute("SELECT * FROM account WHERE id = :id")
+        .bind("id", id.toString())
         .map(this::from)
         .one();
   }

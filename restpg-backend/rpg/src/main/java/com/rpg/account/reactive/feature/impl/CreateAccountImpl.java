@@ -5,8 +5,9 @@ import com.rpg.account.model.NewAccount;
 import com.rpg.account.reactive.feature.CreateAccount;
 import com.rpg.account.reactive.repository.AccountRepository;
 import com.rpg.exception.UsernameOrEmailAlreadyExistsException;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
+
+import static com.rpg.utils.ReactiveUtils.not;
 
 public class CreateAccountImpl implements CreateAccount {
 
@@ -30,9 +31,5 @@ public class CreateAccountImpl implements CreateAccount {
                                     account.username(), account.email())))
                     .switchIfEmpty(Mono.error(new UsernameOrEmailAlreadyExistsException())))
         .flatMap(accountRepository::store);
-  }
-
-  private <T extends Publisher<Boolean>> Mono<Boolean> not(T t) {
-    return Mono.from(t).map(result -> !result);
   }
 }

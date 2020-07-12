@@ -10,6 +10,6 @@ public class SignupRequest {
   private String password;
 
   public NewAccount toNewAccount() {
-    return NewAccount.create(username, email, password);
+    return new NewAccount(username, email, password);
   }
 }

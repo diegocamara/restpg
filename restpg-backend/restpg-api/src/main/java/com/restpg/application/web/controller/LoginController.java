@@ -5,23 +5,20 @@ import com.restpg.application.web.model.response.AuthResponse;
 import com.restpg.application.web.service.JwtService;
 import com.restpg.infrastructure.web.security.Role;
 import com.rpg.account.reactive.feature.FindAccount;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import static java.util.Collections.singletonList;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/v1/login")
 public class LoginController {
 
   private final FindAccount findAccount;
   private final JwtService jwtService;
-
-  public LoginController(FindAccount findAccount, JwtService jwtService) {
-    this.findAccount = findAccount;
-    this.jwtService = jwtService;
-  }
 
   @PostMapping
   @ResponseStatus(HttpStatus.OK)

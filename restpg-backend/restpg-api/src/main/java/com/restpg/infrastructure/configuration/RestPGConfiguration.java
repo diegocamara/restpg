@@ -9,6 +9,9 @@ import com.rpg.account.reactive.feature.FindAccount;
 import com.rpg.account.reactive.feature.impl.CreateAccountImpl;
 import com.rpg.account.reactive.feature.impl.FindAccountImpl;
 import com.rpg.account.reactive.repository.AccountRepository;
+import com.rpg.character.reactive.feature.CreateCharacter;
+import com.rpg.character.reactive.feature.impl.CreateCharacterImpl;
+import com.rpg.character.reactive.repository.CharacterRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -39,10 +42,8 @@ public class RestPGConfiguration {
   }
 
   @Bean
-  public CreateAccount createAccount(
-      AccountRepository accountRepository,
-      com.rpg.account.encoder.PasswordEncoder passwordEncoder) {
-    return new CreateAccountImpl(accountRepository, passwordEncoder);
+  public CreateAccount createAccount(AccountRepository accountRepository) {
+    return new CreateAccountImpl(accountRepository);
   }
 
   @Bean
@@ -50,6 +51,11 @@ public class RestPGConfiguration {
       AccountRepository accountRepository,
       com.rpg.account.encoder.PasswordEncoder passwordEncoder) {
     return new FindAccountImpl(accountRepository, passwordEncoder);
+  }
+
+  @Bean
+  public CreateCharacter createCharacter(CharacterRepository characterRepository) {
+    return new CreateCharacterImpl(characterRepository);
   }
 
   @Bean

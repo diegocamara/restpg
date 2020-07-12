@@ -5,23 +5,20 @@ import com.restpg.application.web.model.response.SignupResponse;
 import com.restpg.application.web.service.JwtService;
 import com.restpg.infrastructure.web.security.Role;
 import com.rpg.account.reactive.feature.CreateAccount;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/v1/signup")
 public class SignupController {
 
   private final CreateAccount createAccount;
   private final JwtService jwtService;
-
-  public SignupController(CreateAccount createAccount, JwtService jwtService) {
-    this.createAccount = createAccount;
-    this.jwtService = jwtService;
-  }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
