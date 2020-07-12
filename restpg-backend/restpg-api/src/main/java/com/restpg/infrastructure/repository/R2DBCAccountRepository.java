@@ -36,7 +36,7 @@ public class R2DBCAccountRepository implements AccountRepository {
   }
 
   @Override
-  public Mono<UUID> store(Account account) {
+  public Mono<Account> store(Account account) {
     return databaseClient
         .insert()
         .into("account")
@@ -46,7 +46,7 @@ public class R2DBCAccountRepository implements AccountRepository {
         .value("password", account.password())
         .fetch()
         .rowsUpdated()
-        .map(rowsUpdated -> account.id());
+        .map(rowsUpdated -> account);
   }
 
   @Override

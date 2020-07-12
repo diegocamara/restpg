@@ -3,6 +3,7 @@ package com.restpg.infrastructure.configuration;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.restpg.infrastructure.configuration.properties.JwtConfigurationPropeprties;
 import com.rpg.account.reactive.feature.CreateAccount;
 import com.rpg.account.reactive.feature.FindAccount;
 import com.rpg.account.reactive.feature.impl.CreateAccountImpl;

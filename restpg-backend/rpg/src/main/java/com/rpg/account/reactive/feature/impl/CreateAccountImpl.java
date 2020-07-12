@@ -5,11 +5,9 @@ import com.rpg.account.model.Account;
 import com.rpg.account.model.NewAccount;
 import com.rpg.account.reactive.feature.CreateAccount;
 import com.rpg.account.reactive.repository.AccountRepository;
-import com.rpg.exception.RPGException;
+import com.rpg.exception.UsernameOrEmailAlreadyExistsException;
 import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
-
-import java.util.UUID;
 
 public class CreateAccountImpl implements CreateAccount {
 
@@ -21,8 +19,8 @@ public class CreateAccountImpl implements CreateAccount {
     this.passwordEncoder = passwordEncoder;
   }
 
-  public Mono<UUID> handle(NewAccount newAccount) {
-
+  @Override
+  public Mono<Account> handle(NewAccount newAccount) {
     return Mono.just(
             Account.create(
                 newAccount.username(),
@@ -36,8 +34,7 @@ public class CreateAccountImpl implements CreateAccount {
                             not(
                                 accountRepository.existsByUsernameOrEmail(
                                     account.username(), account.email())))
-                    .switchIfEmpty(
-                        Mono.error(new RPGException("Username or email already exists"))))
+                    .switchIfEmpty(Mono.error(new UsernameOrEmailAlreadyExistsException())))
         .flatMap(accountRepository::store);
   }
 

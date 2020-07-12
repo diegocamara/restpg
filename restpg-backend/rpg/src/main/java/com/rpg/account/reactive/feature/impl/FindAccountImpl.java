@@ -5,7 +5,7 @@ import com.rpg.account.model.Account;
 import com.rpg.account.model.FindAccountParams;
 import com.rpg.account.reactive.feature.FindAccount;
 import com.rpg.account.reactive.repository.AccountRepository;
-import com.rpg.exception.RPGException;
+import com.rpg.exception.IncorrectEmailOrPasswordException;
 import reactor.core.publisher.Mono;
 
 public class FindAccountImpl implements FindAccount {
@@ -22,9 +22,9 @@ public class FindAccountImpl implements FindAccount {
   public Mono<Account> handle(FindAccountParams findAccountParams) {
     return accountRepository
         .findByEmail(findAccountParams.email())
-        .switchIfEmpty(Mono.error(new RPGException("Incorrect email or password")))
+        .switchIfEmpty(Mono.error(new IncorrectEmailOrPasswordException()))
         .filter(
             account -> passwordEncoder.isValid(findAccountParams.password(), account.password()))
-        .switchIfEmpty(Mono.error(new RPGException("Incorrect email or password")));
+        .switchIfEmpty(Mono.error(new IncorrectEmailOrPasswordException()));
   }
 }

@@ -1,4 +1,4 @@
-package com.restpg.application.web.service.impl;
+package com.restpg.infrastructure.web.service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
