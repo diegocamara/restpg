@@ -4,14 +4,17 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.restpg.infrastructure.configuration.properties.JwtConfigurationPropeprties;
+import com.rpg.account.model.AccountCreator;
 import com.rpg.account.reactive.feature.CreateAccount;
 import com.rpg.account.reactive.feature.FindAccount;
 import com.rpg.account.reactive.feature.impl.CreateAccountImpl;
 import com.rpg.account.reactive.feature.impl.FindAccountImpl;
 import com.rpg.account.reactive.repository.AccountRepository;
+import com.rpg.character.model.CharacterCreator;
 import com.rpg.character.reactive.feature.CreateCharacter;
 import com.rpg.character.reactive.feature.impl.CreateCharacterImpl;
 import com.rpg.character.reactive.repository.CharacterRepository;
+import com.rpg.validator.ModelValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -42,8 +45,9 @@ public class RestPGConfiguration {
   }
 
   @Bean
-  public CreateAccount createAccount(AccountRepository accountRepository) {
-    return new CreateAccountImpl(accountRepository);
+  public CreateAccount createAccount(
+      AccountRepository accountRepository, AccountCreator accountCreator) {
+    return new CreateAccountImpl(accountRepository, accountCreator);
   }
 
   @Bean
@@ -54,8 +58,19 @@ public class RestPGConfiguration {
   }
 
   @Bean
-  public CreateCharacter createCharacter(CharacterRepository characterRepository) {
-    return new CreateCharacterImpl(characterRepository);
+  public CreateCharacter createCharacter(
+      CharacterRepository characterRepository, CharacterCreator characterCreator) {
+    return new CreateCharacterImpl(characterRepository, characterCreator);
+  }
+
+  @Bean
+  public AccountCreator accountCreator(ModelValidator modelValidator) {
+    return new AccountCreator(modelValidator);
+  }
+
+  @Bean
+  public CharacterCreator characterCreator(ModelValidator modelValidator) {
+    return new CharacterCreator(modelValidator);
   }
 
   @Bean

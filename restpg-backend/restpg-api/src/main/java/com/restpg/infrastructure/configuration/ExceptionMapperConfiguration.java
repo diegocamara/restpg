@@ -2,7 +2,7 @@ package com.restpg.infrastructure.configuration;
 
 import com.rpg.exception.CharacterNameAlreadyExistsException;
 import com.rpg.exception.IncorrectEmailOrPasswordException;
-import com.rpg.exception.PropertyException;
+import com.rpg.exception.ModelValidationException;
 import com.rpg.exception.UsernameOrEmailAlreadyExistsException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ public class ExceptionMapperConfiguration {
         put(UsernameOrEmailAlreadyExistsException.class, conflict());
         put(IncorrectEmailOrPasswordException.class, unauthorized());
         put(CharacterNameAlreadyExistsException.class, conflict());
-        put(PropertyException.class, unprocessableEntity());
+        put(ModelValidationException.class, unprocessableEntity());
       }
     };
   }

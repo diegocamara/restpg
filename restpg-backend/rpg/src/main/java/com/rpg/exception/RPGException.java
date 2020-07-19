@@ -14,6 +14,11 @@ public class RPGException extends RuntimeException {
     this.messages = new LinkedList<>(singletonList(message));
   }
 
+  public RPGException(List<String> messages) {
+    super(String.join(", ", messages));
+    this.messages = messages;
+  }
+
   public List<String> messages() {
     return this.messages;
   }

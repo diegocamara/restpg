@@ -17,7 +17,7 @@ public class NewCharacterRequest {
     return new NewCharacter(
         account,
         name,
-        com.rpg.character.model.Attributes.create(
+        new com.rpg.character.model.Attributes(
             attributes.getStrength(), attributes.getAgility(), attributes.getIntelligence()));
   }
 

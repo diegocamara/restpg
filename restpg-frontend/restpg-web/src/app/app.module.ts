@@ -12,6 +12,7 @@ import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import { AuthModule } from "./auth/auth.module";
 import { CoreModule } from "./core/core.module";
+import { AuthGuard } from "./auth/auth.guard";
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,6 +30,7 @@ import { CoreModule } from "./core/core.module";
   providers: [
     StatusBar,
     SplashScreen,
+    AuthGuard,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

@@ -29,7 +29,7 @@ public class WebSecurityConfiguration {
 
     return serverHttpSecurity
         .authorizeExchange()
-        .pathMatchers("/v1/login", "/v1/signup")
+        .pathMatchers("/v1/signin", "/v1/signup")
         .permitAll()
         .anyExchange()
         .authenticated()

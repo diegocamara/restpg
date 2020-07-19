@@ -1,6 +1,7 @@
 package com.rpg.account.reactive.feature.impl;
 
 import com.rpg.account.model.Account;
+import com.rpg.account.model.AccountCreator;
 import com.rpg.account.model.NewAccount;
 import com.rpg.account.reactive.feature.CreateAccount;
 import com.rpg.account.reactive.repository.AccountRepository;
@@ -12,15 +13,17 @@ import static com.rpg.utils.ReactiveUtils.not;
 public class CreateAccountImpl implements CreateAccount {
 
   private final AccountRepository accountRepository;
+  private final AccountCreator accountCreator;
 
-  public CreateAccountImpl(AccountRepository accountRepository) {
+  public CreateAccountImpl(AccountRepository accountRepository, AccountCreator accountCreator) {
     this.accountRepository = accountRepository;
+    this.accountCreator = accountCreator;
   }
 
   @Override
   public Mono<Account> handle(NewAccount newAccount) {
     return Mono.just(
-            Account.create(newAccount.username(), newAccount.email(), newAccount.password()))
+            accountCreator.create(newAccount.username(), newAccount.email(), newAccount.password()))
         .flatMap(
             accountToStore ->
                 Mono.just(accountToStore)

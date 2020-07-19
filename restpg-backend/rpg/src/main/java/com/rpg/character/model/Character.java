@@ -2,21 +2,31 @@ package com.rpg.character.model;
 
 import com.rpg.account.model.Account;
 
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.math.BigInteger;
 import java.util.UUID;
 
 public class Character {
-  private final UUID id;
-  private final Account account;
+  @NotNull private final UUID id;
+  @NotNull private final Account account;
+
+  @Size(min = 4, max = 20, message = "name must be between 4 and 20 characters")
   private final String name;
+
+  @Min(value = 1, message = "level should not be less than 1")
+  @Max(value = 100, message = "level should not be greater than 100")
   private final Integer level;
-  private final ActionPoints healthPoints;
-  private final ActionPoints magicPoints;
-  private final Attributes attributes;
-  private final Experience experience;
+
+  @NotNull @Valid private final ActionPoints healthPoints;
+  @NotNull @Valid private final ActionPoints magicPoints;
+  @NotNull @Valid private final Attributes attributes;
+  @NotNull @Valid private final Experience experience;
+
+  @DecimalMin(value = "0", message = "gold should not be less than 0")
   private final BigInteger gold;
 
-  public Character(
+  protected Character(
       UUID id,
       Account account,
       String name,
@@ -35,22 +45,6 @@ public class Character {
     this.attributes = attributes;
     this.experience = experience;
     this.gold = gold;
-  }
-
-  public static Character create(Account account, String name, Attributes attributes) {
-    final var initialHealthPoints = BigInteger.valueOf(100);
-    final var initialMagicPoints = BigInteger.valueOf(20);
-    final var initialLevel = 1;
-    return new Character(
-        UUID.randomUUID(),
-        account,
-        name,
-        initialLevel,
-        ActionPoints.create(initialHealthPoints, initialHealthPoints),
-        ActionPoints.create(initialMagicPoints, initialMagicPoints),
-        attributes,
-        Experience.create(BigInteger.ZERO, BigInteger.valueOf(100)),
-        BigInteger.ZERO);
   }
 
   public UUID id() {

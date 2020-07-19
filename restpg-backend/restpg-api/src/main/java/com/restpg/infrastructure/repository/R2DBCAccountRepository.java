@@ -2,8 +2,10 @@ package com.restpg.infrastructure.repository;
 
 import com.rpg.account.encoder.PasswordEncoder;
 import com.rpg.account.model.Account;
+import com.rpg.account.model.AccountCreator;
 import com.rpg.account.reactive.repository.AccountRepository;
 import io.r2dbc.spi.Row;
+import lombok.AllArgsConstructor;
 import org.springframework.data.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
@@ -12,16 +14,13 @@ import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
 
+@AllArgsConstructor
 @Repository
 public class R2DBCAccountRepository implements AccountRepository {
 
   private final DatabaseClient databaseClient;
   private final PasswordEncoder passwordEncoder;
-
-  public R2DBCAccountRepository(DatabaseClient databaseClient, PasswordEncoder passwordEncoder) {
-    this.databaseClient = databaseClient;
-    this.passwordEncoder = passwordEncoder;
-  }
+  private final AccountCreator accountCreator;
 
   @Override
   public Mono<Boolean> existsByUsernameOrEmail(String username, String email) {
@@ -71,7 +70,7 @@ public class R2DBCAccountRepository implements AccountRepository {
   }
 
   private Account from(Row row) {
-    return Account.create(
+    return accountCreator.create(
         UUID.fromString(requireNonNull(row.get("id", String.class))),
         row.get("username", String.class),
         row.get("email", String.class),
