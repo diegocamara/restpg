@@ -14,7 +14,7 @@ import static java.util.Collections.singletonList;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/v1/login")
+@RequestMapping("/v1/signin")
 public class LoginController {
 
   private final FindAccount findAccount;

@@ -1,0 +1,39 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <h3>Sign In</h3>
+        </div>
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+          <div>
+            <ion-item>
+              <ion-input
+                type="text"
+                formControlName="email"
+                placeholder="Email"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                type="password"
+                formControlName="password"
+                placeholder="Password"
+              ></ion-input>
+            </ion-item>
+          </div>
+          <div>
+            <ion-button
+              size="large"
+              expand="block"
+              color="primary"
+              type="submit"
+            >
+              Sign In
+            </ion-button>
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

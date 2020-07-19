@@ -1,3 +1,10 @@
 jwt-config:
   public-key-file-path: keys/rsa_public_key.der
   private-key-file-path: keys/rsa_private_key.der
+cors:
+  allowedOrigins:
+    - "http://localhost:8100"
+  allowedMethods:
+    - "*"
+  allowedHeaders:
+    - "*"

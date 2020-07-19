@@ -1,0 +1,1 @@
+INSERT INTO ACCOUNT (ID, USERNAME, EMAIL, PASSWORD) VALUES ('d35779cd-6478-4b7e-8a16-0b15bbdf60d5', 'admin', 'admin@admin.com', '$2a$10$tIMo/SekygqVKdmKqfkFkOCyx0il0hf4R0sTLfCgHPZOls8wq.VXe');

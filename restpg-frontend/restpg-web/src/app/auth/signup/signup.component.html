@@ -1,0 +1,47 @@
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div class="ion-text-center">
+          <h3>Create your account</h3>
+        </div>
+        <form [formGroup]="signupForm" (ngSubmit)="signup()">
+          <div>
+            <ion-item>
+              <ion-input
+                type="text"
+                formControlName="username"
+                placeholder="Username"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                type="text"
+                formControlName="email"
+                placeholder="Email"
+              ></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-input
+                type="password"
+                formControlName="password"
+                placeholder="Password"
+              ></ion-input>
+            </ion-item>
+          </div>
+          <div>
+            <ion-button
+              size="large"
+              expand="block"
+              color="primary"
+              type="submit"
+              [disabled]="signupForm.invalid"
+            >
+              Sign Up
+            </ion-button>
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

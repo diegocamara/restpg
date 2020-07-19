@@ -16,7 +16,8 @@ public class ConnectionFactoryInitializerConfiguration {
     final var connectionFactoryInitializer = new ConnectionFactoryInitializer();
     connectionFactoryInitializer.setConnectionFactory(connectionFactory);
     final var resourceDataBasePopulator =
-        new ResourceDatabasePopulator(new ClassPathResource("schema.sql"));
+        new ResourceDatabasePopulator(
+            new ClassPathResource("schema.sql"), new ClassPathResource("data.sql"));
     connectionFactoryInitializer.setDatabasePopulator(resourceDataBasePopulator);
     return connectionFactoryInitializer;
   }
