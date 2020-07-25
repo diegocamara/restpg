@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { AccountService } from "src/app/core/service/account.service";
 import { Router } from "@angular/router";
+import { JWTService } from "src/app/core/service/jwt.service";
 
 @Component({
   selector: "app-signup",
@@ -13,6 +14,7 @@ export class SignUpComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private accountService: AccountService,
+    private jwtService: JWTService,
     private router: Router
   ) {
     this.signupForm = this.formBuilder.group({
@@ -25,9 +27,10 @@ export class SignUpComponent implements OnInit {
   ngOnInit() {}
 
   signup() {
-    this.accountService.signup(this.signupForm.value).subscribe(
-      (signUpResponse) => {
-        this.router.navigate([""]);
+    this.accountService.signUp(this.signupForm.value).subscribe(
+      (signupResponse) => {
+        this.jwtService.storeToken(signupResponse.token);
+        this.router.navigate(["home"]);
       },
       (error) => console.log(error)
     );

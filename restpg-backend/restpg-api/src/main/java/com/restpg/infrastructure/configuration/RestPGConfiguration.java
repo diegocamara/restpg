@@ -15,16 +15,14 @@ import com.rpg.character.reactive.feature.CreateCharacter;
 import com.rpg.character.reactive.feature.impl.CreateCharacterImpl;
 import com.rpg.character.reactive.repository.CharacterRepository;
 import com.rpg.validator.ModelValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
@@ -33,6 +31,9 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+import static java.util.Objects.requireNonNull;
+
+@Slf4j
 @Configuration
 @EnableTransactionManagement
 public class RestPGConfiguration {
@@ -99,8 +100,9 @@ public class RestPGConfiguration {
   }
 
   private byte[] file(String filePath) throws IOException {
-    final var uri = new ClassPathResource(filePath).getURI();
-    return Files.readAllBytes(Path.of(uri));
+    try (final var inputStream = getClass().getClassLoader().getResourceAsStream(filePath)) {
+      return requireNonNull(inputStream).readAllBytes();
+    }
   }
 
   private KeyFactory rsaKeyFactory() throws NoSuchAlgorithmException {

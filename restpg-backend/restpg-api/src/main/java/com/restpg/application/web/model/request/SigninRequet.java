@@ -4,7 +4,7 @@ import com.rpg.account.model.FindAccountParams;
 import lombok.Data;
 
 @Data
-public class LoginRequest {
+public class SigninRequet {
   private String email;
   private String password;
 

@@ -1,0 +1,19 @@
+version: "3"
+services:
+  restpg-api:
+    image: restpg-api
+    build: restpg-backend/
+    ports:
+      - "8080:8080"
+    networks:
+      - restpg
+  restpg-web-server:
+    image: restpg-web-server
+    build: restpg-frontend/restpg-web/
+    ports:
+      - "8081:80"
+    networks:
+      - restpg
+networks:
+  restpg:
+    driver: "bridge"

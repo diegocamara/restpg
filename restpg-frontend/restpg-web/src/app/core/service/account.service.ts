@@ -4,22 +4,32 @@ import { Observable, throwError } from "rxjs";
 import { catchError, retry, map } from "rxjs/operators";
 import { ErrorResponse } from "../entity/error-response";
 import { JWTService } from "./jwt.service";
+import { environment } from "../../../environments/environment";
+import { SigninRequest } from "../entity/signin-request";
+import { SigninResponse } from "../entity/signin-response";
+import { SignupRequest } from "../entity/signup-request";
+import { SignupResponse } from "../entity/signup-response";
 
 @Injectable()
 export class AccountService {
-  serverUrl: String = "http://localhost:8080";
   constructor(private httpClient: HttpClient, private jwtService: JWTService) {}
 
-  signup(signupRequest: any): Observable<any> {
+  signIn(loginRequest: SigninRequest): Observable<SigninResponse> {
     return this.httpClient
-      .post(`${this.serverUrl}/v1/signup`, signupRequest)
-      .pipe(
-        map((signUpResponse: any) => {
-          this.jwtService.storeToken(signUpResponse.token);
-          return signUpResponse;
-        }),
-        catchError(this.errorHandler)
-      );
+      .post<SigninResponse>(
+        `${environment.restpgApi.url}/v1/signin`,
+        loginRequest
+      )
+      .pipe(catchError(this.errorHandler));
+  }
+
+  signUp(signupRequest: SignupRequest): Observable<SignupResponse> {
+    return this.httpClient
+      .post<SignupResponse>(
+        `${environment.restpgApi.url}/v1/signup`,
+        signupRequest
+      )
+      .pipe(catchError(this.errorHandler));
   }
 
   isAuthenticated(): boolean {

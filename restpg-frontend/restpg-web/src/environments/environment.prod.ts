@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  restpgApi: {
+    url: "http://localhost:8080",
+  },
 };
