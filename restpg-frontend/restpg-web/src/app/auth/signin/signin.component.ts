@@ -27,14 +27,11 @@ export class SignInComponent implements OnInit {
   ngOnInit() {}
 
   onSubmit() {
-    this.accountService.signIn(this.authForm.value).subscribe(
-      (signinResponse) => {
+    this.accountService
+      .signIn(this.authForm.value)
+      .subscribe((signinResponse) => {
         this.jwtService.storeToken(signinResponse.token);
         this.router.navigate(["home"]);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      });
   }
 }

@@ -26,7 +26,7 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit() {}
 
-  signup() {
+  signUp() {
     this.accountService.signUp(this.signupForm.value).subscribe(
       (signupResponse) => {
         this.jwtService.storeToken(signupResponse.token);

@@ -9,44 +9,36 @@ import { SigninRequest } from "../entity/signin-request";
 import { SigninResponse } from "../entity/signin-response";
 import { SignupRequest } from "../entity/signup-request";
 import { SignupResponse } from "../entity/signup-response";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AccountService {
-  constructor(private httpClient: HttpClient, private jwtService: JWTService) {}
+  constructor(
+    private httpClient: HttpClient,
+    private jwtService: JWTService,
+    private router: Router
+  ) {}
 
   signIn(loginRequest: SigninRequest): Observable<SigninResponse> {
-    return this.httpClient
-      .post<SigninResponse>(
-        `${environment.restpgApi.url}/v1/signin`,
-        loginRequest
-      )
-      .pipe(catchError(this.errorHandler));
+    return this.httpClient.post<SigninResponse>(
+      `${environment.restpgApi.url}/v1/signin`,
+      loginRequest
+    );
   }
 
   signUp(signupRequest: SignupRequest): Observable<SignupResponse> {
-    return this.httpClient
-      .post<SignupResponse>(
-        `${environment.restpgApi.url}/v1/signup`,
-        signupRequest
-      )
-      .pipe(catchError(this.errorHandler));
+    return this.httpClient.post<SignupResponse>(
+      `${environment.restpgApi.url}/v1/signup`,
+      signupRequest
+    );
+  }
+
+  logout() {
+    this.jwtService.removeToken();
+    this.router.navigate(["signin"]);
   }
 
   isAuthenticated(): boolean {
     return this.jwtService.getToken() !== null;
-  }
-
-  errorHandler(httpErrorResponse: HttpErrorResponse) {
-    let errorResponse = new ErrorResponse();
-
-    if (httpErrorResponse.error instanceof ErrorEvent) {
-      //client-side error
-      errorResponse.errors = [httpErrorResponse.error.message];
-    } else {
-      // server-side error
-      errorResponse = httpErrorResponse.error;
-    }
-
-    return throwError(errorResponse);
   }
 }
