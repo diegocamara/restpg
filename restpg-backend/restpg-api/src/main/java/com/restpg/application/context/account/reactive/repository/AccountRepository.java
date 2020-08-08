@@ -1,6 +1,6 @@
-package com.rpg.account.reactive.repository;
+package com.restpg.application.context.account.reactive.repository;
 
-import com.rpg.account.model.Account;
+import com.restpg.application.context.account.model.Account;
 import reactor.core.publisher.Mono;
 
 import java.util.UUID;

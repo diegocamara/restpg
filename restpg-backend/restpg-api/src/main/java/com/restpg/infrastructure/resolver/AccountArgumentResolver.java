@@ -1,7 +1,7 @@
 package com.restpg.infrastructure.resolver;
 
-import com.rpg.account.model.Account;
-import com.rpg.account.reactive.repository.AccountRepository;
+import com.restpg.application.context.account.model.Account;
+import com.restpg.application.context.account.reactive.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -34,6 +34,6 @@ public class AccountArgumentResolver implements HandlerMethodArgumentResolver {
             principal ->
                 accountRepository
                     .findById(UUID.fromString(principal.getName()))
-                    .switchIfEmpty(Mono.error(new IllegalArgumentException())));
+                    .switchIfEmpty(Mono.error(new IllegalArgumentException("account not found"))));
   }
 }

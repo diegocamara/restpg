@@ -1,4 +1,4 @@
-package com.rpg.account.model;
+package com.restpg.application.context.account.model;
 
 public class NewAccount {
 

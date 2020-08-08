@@ -1,10 +1,10 @@
-package com.rpg.account.reactive.feature.impl;
+package com.restpg.application.context.account.reactive.feature.impl;
 
-import com.rpg.account.model.Account;
-import com.rpg.account.model.AccountCreator;
-import com.rpg.account.model.NewAccount;
-import com.rpg.account.reactive.feature.CreateAccount;
-import com.rpg.account.reactive.repository.AccountRepository;
+import com.restpg.application.context.account.model.Account;
+import com.restpg.application.context.account.model.AccountCreator;
+import com.restpg.application.context.account.model.NewAccount;
+import com.restpg.application.context.account.reactive.feature.CreateAccount;
+import com.restpg.application.context.account.reactive.repository.AccountRepository;
 import com.rpg.exception.UsernameOrEmailAlreadyExistsException;
 import reactor.core.publisher.Mono;
 

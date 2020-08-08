@@ -1,4 +1,4 @@
-package com.rpg.account.model;
+package com.restpg.application.context.account.model;
 
 import static java.util.Objects.requireNonNull;
 

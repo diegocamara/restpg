@@ -1,4 +1,4 @@
-package com.rpg.account.encoder;
+package com.restpg.application.context.account.encoder;
 
 public interface PasswordEncoder {
   String encode(String plainText);

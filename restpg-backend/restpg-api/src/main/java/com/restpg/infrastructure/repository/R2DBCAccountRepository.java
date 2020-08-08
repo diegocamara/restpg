@@ -1,9 +1,9 @@
 package com.restpg.infrastructure.repository;
 
-import com.rpg.account.encoder.PasswordEncoder;
-import com.rpg.account.model.Account;
-import com.rpg.account.model.AccountCreator;
-import com.rpg.account.reactive.repository.AccountRepository;
+import com.restpg.application.context.account.encoder.PasswordEncoder;
+import com.restpg.application.context.account.model.Account;
+import com.restpg.application.context.account.model.AccountCreator;
+import com.restpg.application.context.account.reactive.repository.AccountRepository;
 import io.r2dbc.spi.Row;
 import lombok.AllArgsConstructor;
 import org.springframework.data.r2dbc.core.DatabaseClient;

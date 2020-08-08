@@ -1,6 +1,6 @@
 package com.restpg.application.web.model.request;
 
-import com.rpg.account.model.FindAccountParams;
+import com.restpg.application.context.account.model.FindAccountParams;
 import lombok.Data;
 
 @Data

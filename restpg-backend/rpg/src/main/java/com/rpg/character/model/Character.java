@@ -1,15 +1,19 @@
 package com.rpg.character.model;
 
-import com.rpg.account.model.Account;
+import com.rpg.item.model.Equipment;
+import com.rpg.item.model.EquipmentType;
+import com.rpg.item.model.Item;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class Character {
+
   @NotNull private final UUID id;
-  @NotNull private final Account account;
 
   @Size(min = 4, max = 20, message = "name must be between 4 and 20 characters")
   private final String name;
@@ -20,24 +24,33 @@ public class Character {
 
   @NotNull @Valid private final ActionPoints healthPoints;
   @NotNull @Valid private final ActionPoints magicPoints;
-  @NotNull @Valid private final Attributes attributes;
+  @NotNull private final Map<Attribute, BigInteger> attributes;
   @NotNull @Valid private final Experience experience;
 
   @DecimalMin(value = "0", message = "gold should not be less than 0")
   private final BigInteger gold;
 
+  private final Type type;
+  private final CharacterClass characterClass;
+  private final List<Item> items;
+  private final Map<EquipmentType, Equipment> equipment;
+  private final List<Skill> skills;
+
   protected Character(
       UUID id,
-      Account account,
       String name,
       Integer level,
       ActionPoints healthPoints,
       ActionPoints magicPoints,
-      Attributes attributes,
+      Map<Attribute, BigInteger> attributes,
       Experience experience,
-      BigInteger gold) {
+      BigInteger gold,
+      Type type,
+      CharacterClass characterClass,
+      List<Item> items,
+      Map<EquipmentType, Equipment> equipment,
+      List<Skill> skills) {
     this.id = id;
-    this.account = account;
     this.name = name;
     this.level = level;
     this.healthPoints = healthPoints;
@@ -45,14 +58,15 @@ public class Character {
     this.attributes = attributes;
     this.experience = experience;
     this.gold = gold;
+    this.type = type;
+    this.characterClass = characterClass;
+    this.items = items;
+    this.equipment = equipment;
+    this.skills = skills;
   }
 
   public UUID id() {
     return id;
-  }
-
-  public Account account() {
-    return account;
   }
 
   public String name() {
@@ -71,7 +85,7 @@ public class Character {
     return magicPoints;
   }
 
-  public Attributes attributes() {
+  public Map<Attribute, BigInteger> attributes() {
     return attributes;
   }
 
@@ -81,5 +95,25 @@ public class Character {
 
   public BigInteger gold() {
     return gold;
+  }
+
+  public Type type() {
+    return type;
+  }
+
+  public CharacterClass characterClass() {
+    return characterClass;
+  }
+
+  public List<Item> items() {
+    return items;
+  }
+
+  public Map<EquipmentType, Equipment> equipment() {
+    return equipment;
+  }
+
+  public List<Skill> skills() {
+    return skills;
   }
 }

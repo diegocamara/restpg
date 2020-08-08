@@ -5,10 +5,7 @@ import com.rpg.character.model.CharacterCreator;
 import com.rpg.character.model.NewCharacter;
 import com.rpg.character.reactive.feature.CreateCharacter;
 import com.rpg.character.reactive.repository.CharacterRepository;
-import com.rpg.exception.CharacterNameAlreadyExistsException;
 import reactor.core.publisher.Mono;
-
-import static com.rpg.utils.ReactiveUtils.not;
 
 public class CreateCharacterImpl implements CreateCharacter {
 
@@ -23,15 +20,7 @@ public class CreateCharacterImpl implements CreateCharacter {
 
   @Override
   public Mono<Character> handle(NewCharacter newCharacter) {
-    return Mono.just(
-            characterCreator.create(
-                newCharacter.account(), newCharacter.name(), newCharacter.attributes()))
-        .filterWhen(
-            character ->
-                not(
-                    characterRepository.existsByAccountAndName(
-                        character.account(), character.name())))
-        .switchIfEmpty(Mono.error(new CharacterNameAlreadyExistsException()))
+    return Mono.just(characterCreator.create(newCharacter.name(), newCharacter.attributes()))
         .flatMap(characterRepository::store);
   }
 }

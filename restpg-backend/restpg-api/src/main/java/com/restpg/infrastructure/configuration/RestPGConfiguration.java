@@ -3,13 +3,13 @@ package com.restpg.infrastructure.configuration;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import com.restpg.application.context.account.model.AccountCreator;
+import com.restpg.application.context.account.reactive.feature.CreateAccount;
+import com.restpg.application.context.account.reactive.feature.FindAccount;
+import com.restpg.application.context.account.reactive.feature.impl.CreateAccountImpl;
+import com.restpg.application.context.account.reactive.feature.impl.FindAccountImpl;
+import com.restpg.application.context.account.reactive.repository.AccountRepository;
 import com.restpg.infrastructure.configuration.properties.JwtConfigurationPropeprties;
-import com.rpg.account.model.AccountCreator;
-import com.rpg.account.reactive.feature.CreateAccount;
-import com.rpg.account.reactive.feature.FindAccount;
-import com.rpg.account.reactive.feature.impl.CreateAccountImpl;
-import com.rpg.account.reactive.feature.impl.FindAccountImpl;
-import com.rpg.account.reactive.repository.AccountRepository;
 import com.rpg.character.model.CharacterCreator;
 import com.rpg.character.reactive.feature.CreateCharacter;
 import com.rpg.character.reactive.feature.impl.CreateCharacterImpl;
@@ -54,7 +54,7 @@ public class RestPGConfiguration {
   @Bean
   public FindAccount findAccount(
       AccountRepository accountRepository,
-      com.rpg.account.encoder.PasswordEncoder passwordEncoder) {
+      com.restpg.application.context.account.encoder.PasswordEncoder passwordEncoder) {
     return new FindAccountImpl(accountRepository, passwordEncoder);
   }
 
