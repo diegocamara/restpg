@@ -1,9 +1,9 @@
 package com.restpg.application.web.controller;
 
-import com.restpg.application.context.account.reactive.feature.CreateAccount;
 import com.restpg.application.web.model.request.SignupRequest;
 import com.restpg.application.web.model.response.SignupResponse;
 import com.restpg.application.web.service.JwtService;
+import com.restpg.domain.account.reactive.feature.CreateAccount;
 import com.restpg.infrastructure.web.security.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

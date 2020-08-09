@@ -1,21 +1,18 @@
 package com.restpg.application.web.controller;
 
-import com.restpg.application.context.account.model.Account;
-import com.restpg.application.context.accountcharacter.reactive.feature.CheckAlreadyExistsCharacterName;
-import com.restpg.application.context.accountcharacter.reactive.feature.CreateAccountCharacter;
 import com.restpg.application.web.model.request.NewCharacterRequest;
+import com.restpg.application.web.model.response.FindCharacterResponse;
 import com.restpg.application.web.model.response.NewCharacterResponse;
-import com.rpg.character.reactive.feature.CreateCharacter;
-import com.rpg.exception.CharacterNameAlreadyExistsException;
+import com.restpg.domain.account.model.Account;
+import com.restpg.domain.character.reactive.feature.CreateCharacter;
+import com.restpg.domain.character.reactive.feature.FindCharacter;
+import com.rpg.model.character.Type;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import static com.rpg.utils.ReactiveUtils.not;
+import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
@@ -23,19 +20,20 @@ import static com.rpg.utils.ReactiveUtils.not;
 public class CharacterController {
 
   private final CreateCharacter createCharacter;
-  private final CheckAlreadyExistsCharacterName checkAlreadyExistsCharacterName;
-  private final CreateAccountCharacter createAccountCharacter;
+  private final FindCharacter findCharacter;
 
-  @PostMapping
+  @PostMapping("/hero")
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
   public Mono<NewCharacterResponse> create(
-      @RequestBody Mono<NewCharacterRequest> newCharacterRequest, Account account) {
-    return newCharacterRequest
-        .filterWhen(
-            request -> not(checkAlreadyExistsCharacterName.handle(account, request.getName())))
-        .switchIfEmpty(Mono.error(new CharacterNameAlreadyExistsException()))
-        .flatMap(request -> createCharacter.handle(request.toNewCharacter()))
-        .flatMap(character -> createAccountCharacter.handle(account.id(), character.id()))
-        .map(accountCharacter -> new NewCharacterResponse(accountCharacter.characterId()));
+      @RequestBody NewCharacterRequest newCharacterRequest, Account account) {
+    return createCharacter
+        .handle(Mono.just(newCharacterRequest.toNewCharacter()), account, Type.HERO)
+        .map(character -> new NewCharacterResponse(character.id()));
+  }
+
+  @GetMapping("/hero/{characterId}")
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+  public Mono<FindCharacterResponse> find(@PathVariable UUID characterId, Account account) {
+    return findCharacter.handle(characterId, account).map(FindCharacterResponse::from);
   }
 }

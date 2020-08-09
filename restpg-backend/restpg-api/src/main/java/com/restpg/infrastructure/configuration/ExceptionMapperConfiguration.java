@@ -1,9 +1,10 @@
 package com.restpg.infrastructure.configuration;
 
-import com.rpg.exception.CharacterNameAlreadyExistsException;
-import com.rpg.exception.IncorrectEmailOrPasswordException;
+import com.restpg.domain.account.exception.IncorrectEmailOrPasswordException;
+import com.restpg.domain.account.exception.UsernameOrEmailAlreadyExistsException;
+import com.restpg.domain.character.exception.CharacterNameAlreadyExistsException;
+import com.restpg.domain.character.exception.CharacterNotFoundException;
 import com.rpg.exception.ModelValidationException;
-import com.rpg.exception.UsernameOrEmailAlreadyExistsException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,13 @@ public class ExceptionMapperConfiguration {
         put(IncorrectEmailOrPasswordException.class, unauthorized());
         put(CharacterNameAlreadyExistsException.class, conflict());
         put(ModelValidationException.class, unprocessableEntity());
+        put(CharacterNotFoundException.class, notFound());
       }
     };
+  }
+
+  private Consumer<ServerWebExchange> notFound() {
+    return serverWebExchange -> serverWebExchange.getResponse().setStatusCode(HttpStatus.NOT_FOUND);
   }
 
   private Consumer<ServerWebExchange> unauthorized() {

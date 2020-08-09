@@ -23,7 +23,13 @@ public class HibernateModelValidator implements ModelValidator {
     if (!constraintViolations.isEmpty()) {
       final var messages =
           constraintViolations.stream()
-              .map(ConstraintViolation::getMessage)
+              .map(
+                  constraintViolation ->
+                      constraintViolation
+                          .getPropertyPath()
+                          .toString()
+                          .concat(" : ")
+                          .concat(constraintViolation.getMessage()))
               .collect(Collectors.toList());
       throw new ModelValidationException(messages);
     }

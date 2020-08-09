@@ -4,8 +4,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BCryptPasswordEncoder
-    implements com.restpg.application.context.account.encoder.PasswordEncoder {
+public class BCryptPasswordEncoder implements com.restpg.domain.account.encoder.PasswordEncoder {
 
   private final PasswordEncoder passwordEncoder;
 

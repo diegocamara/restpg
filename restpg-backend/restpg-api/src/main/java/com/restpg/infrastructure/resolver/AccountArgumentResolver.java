@@ -1,7 +1,7 @@
 package com.restpg.infrastructure.resolver;
 
-import com.restpg.application.context.account.model.Account;
-import com.restpg.application.context.account.reactive.repository.AccountRepository;
+import com.restpg.domain.account.model.Account;
+import com.restpg.domain.account.reactive.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
