@@ -18,7 +18,7 @@ public class CharacterCreator {
   }
 
   public Character create(
-      String name,
+      Biography biography,
       Attributes attributes,
       Type type,
       CharacterClass characterClass,
@@ -32,7 +32,7 @@ public class CharacterCreator {
     final var character =
         byCharacterClass(
             id,
-            name,
+            biography,
             level,
             new ActionPoints(initialHealthPoints, initialHealthPoints),
             new ActionPoints(initialMagicPoints, initialMagicPoints),
@@ -50,7 +50,7 @@ public class CharacterCreator {
 
   public Character create(
       UUID id,
-      String name,
+      Biography biography,
       Integer level,
       ActionPoints healthPoints,
       ActionPoints magicPoints,
@@ -66,7 +66,7 @@ public class CharacterCreator {
     final var character =
         byCharacterClass(
             id,
-            name,
+            biography,
             level,
             healthPoints,
             magicPoints,
@@ -84,7 +84,7 @@ public class CharacterCreator {
 
   private Character byCharacterClass(
       UUID id,
-      String name,
+      Biography biography,
       Integer level,
       ActionPoints healthPoints,
       ActionPoints magicPoints,
@@ -104,7 +104,7 @@ public class CharacterCreator {
         character =
             new Fighter(
                 id,
-                name,
+                biography,
                 level,
                 healthPoints,
                 magicPoints,
@@ -120,7 +120,7 @@ public class CharacterCreator {
         character =
             new Ninja(
                 id,
-                name,
+                biography,
                 level,
                 healthPoints,
                 magicPoints,
@@ -136,7 +136,7 @@ public class CharacterCreator {
         character =
             new Wizard(
                 id,
-                name,
+                biography,
                 level,
                 healthPoints,
                 magicPoints,
@@ -152,7 +152,7 @@ public class CharacterCreator {
         character =
             new Ranger(
                 id,
-                name,
+                biography,
                 level,
                 healthPoints,
                 magicPoints,
@@ -168,7 +168,7 @@ public class CharacterCreator {
         character =
             new Lancer(
                 id,
-                name,
+                biography,
                 level,
                 healthPoints,
                 magicPoints,

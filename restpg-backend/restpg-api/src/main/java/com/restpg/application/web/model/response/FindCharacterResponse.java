@@ -2,6 +2,7 @@ package com.restpg.application.web.model.response;
 
 import com.restpg.application.web.model.dto.ActionPointsDTO;
 import com.restpg.application.web.model.dto.AttributesDTO;
+import com.restpg.application.web.model.dto.BiographyDTO;
 import com.restpg.application.web.model.dto.ExperienceDTO;
 import com.rpg.model.character.Character;
 import com.rpg.model.character.CharacterClass;
@@ -19,7 +20,7 @@ import java.util.UUID;
 public class FindCharacterResponse {
 
   private UUID id;
-  private String name;
+  private BiographyDTO biography;
   private Integer level;
   private ActionPointsDTO healthPoints;
   private ActionPointsDTO magicPoints;
@@ -30,27 +31,16 @@ public class FindCharacterResponse {
   private CharacterClass characterClass;
 
   public static FindCharacterResponse from(Character character) {
-
-    final var healthPoints =
-        new ActionPointsDTO(character.healthPoints().current(), character.healthPoints().max());
-    final var magicPoints =
-        new ActionPointsDTO(character.magicPoints().current(), character.magicPoints().max());
-    final var characterAttributes = character.attributes();
+    final var biography = BiographyDTO.from(character.biography());
+    final var healthPoints = ActionPointsDTO.from(character.healthPoints());
+    final var magicPoints = ActionPointsDTO.from(character.magicPoints());
     final var attributes =
-        new AttributesDTO(
-            characterAttributes.strength(),
-            characterAttributes.constitution(),
-            characterAttributes.dexterity(),
-            characterAttributes.intelligence(),
-            characterAttributes.wisdom(),
-            characterAttributes.charisma());
-
-    final var experience =
-        new ExperienceDTO(character.experience().current(), character.experience().next());
-
+        AttributesDTO.from(
+            character.attributes(), character.attackPower(), character.defensePower());
+    final var experience = ExperienceDTO.from(character.experience());
     return new FindCharacterResponse(
         character.id(),
-        character.name(),
+        biography,
         character.level(),
         healthPoints,
         magicPoints,

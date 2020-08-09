@@ -22,16 +22,27 @@ public class CharacterController {
   private final CreateCharacter createCharacter;
   private final FindCharacter findCharacter;
 
-  @PostMapping("/hero")
-  @PreAuthorize("hasAnyRole('USER','ADMIN')")
+  @PostMapping
+  @PreAuthorize("hasRole('ADMIN')")
   public Mono<NewCharacterResponse> create(
       @RequestBody NewCharacterRequest newCharacterRequest, Account account) {
     return createCharacter
-        .handle(Mono.just(newCharacterRequest.toNewCharacter()), account, Type.HERO)
+        .handle(
+            Mono.just(newCharacterRequest.toNewCharacter()), account, newCharacterRequest.getType())
         .map(character -> new NewCharacterResponse(character.id()));
   }
 
-  @GetMapping("/hero/{characterId}")
+  @PostMapping("/hero")
+  @PreAuthorize("hasAnyRole('USER','ADMIN')")
+  public Mono<NewCharacterResponse> create(
+      @RequestBody Mono<NewCharacterRequest> newCharacterRequestMono, Account account) {
+    return createCharacter
+        .handle(
+            newCharacterRequestMono.map(NewCharacterRequest::toNewCharacter), account, Type.HERO)
+        .map(character -> new NewCharacterResponse(character.id()));
+  }
+
+  @GetMapping("/{characterId}")
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public Mono<FindCharacterResponse> find(@PathVariable UUID characterId, Account account) {
     return findCharacter.handle(characterId, account).map(FindCharacterResponse::from);

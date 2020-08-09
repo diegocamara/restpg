@@ -11,7 +11,7 @@ import java.util.UUID;
 public class Fighter extends Character {
   public Fighter(
       UUID id,
-      String name,
+      Biography biography,
       Integer level,
       ActionPoints healthPoints,
       ActionPoints magicPoints,
@@ -24,7 +24,7 @@ public class Fighter extends Character {
       List<Skill> skills) {
     super(
         id,
-        name,
+        biography,
         level,
         healthPoints,
         magicPoints,

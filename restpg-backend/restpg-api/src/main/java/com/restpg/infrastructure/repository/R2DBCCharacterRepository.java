@@ -49,7 +49,8 @@ public class R2DBCCharacterRepository implements CharacterRepository {
         .insert()
         .into("characters")
         .value("id", character.id())
-        .value("name", character.name())
+        .value("name", character.biography().name())
+        .value("background", character.biography().background())
         .value("character_level", character.level())
         .value("current_experience", character.experience().current().longValue())
         .value("next_experience", character.experience().next().longValue())
@@ -86,6 +87,7 @@ public class R2DBCCharacterRepository implements CharacterRepository {
 
     final var id = UUID.fromString(requireNonNull(row.get("id", String.class)));
     final var name = row.get("name", String.class);
+    final var background = row.get("background", String.class);
     final var level = bigIntegerValue(row, "character_level");
     final var currentExperience = bigIntegerValue(row, "current_experience");
     final var nextExperience = bigIntegerValue(row, "next_experience");
@@ -103,15 +105,15 @@ public class R2DBCCharacterRepository implements CharacterRepository {
     final var type = Type.valueOf(row.get("type", String.class));
     final var characterClass = CharacterClass.valueOf(row.get("character_class", String.class));
 
+    final var biography = new Biography(name, background);
     final var healthPoints = new ActionPoints(currentHealthPoints, maxHealthPoints);
     final var magicPoints = new ActionPoints(currentMagicPoints, maxMagicPoints);
     final var attributes =
         new Attributes(strength, constitution, dexterity, intelligence, wisdom, charisma);
     final var experience = new Experience(currentExperience, nextExperience);
-
     return characterCreator.create(
         id,
-        name,
+        biography,
         level.intValue(),
         healthPoints,
         magicPoints,

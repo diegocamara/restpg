@@ -2,18 +2,18 @@ package com.rpg.model.character;
 
 public class NewCharacter {
 
-  private final String name;
+  private final Biography biography;
   private final Attributes attributes;
   private final CharacterClass characterClass;
 
-  public NewCharacter(String name, Attributes attributes, CharacterClass characterClass) {
-    this.name = name;
+  public NewCharacter(Biography biography, Attributes attributes, CharacterClass characterClass) {
+    this.biography = biography;
     this.attributes = attributes;
     this.characterClass = characterClass;
   }
 
-  public String name() {
-    return name;
+  public Biography biography() {
+    return biography;
   }
 
   public Attributes attributes() {

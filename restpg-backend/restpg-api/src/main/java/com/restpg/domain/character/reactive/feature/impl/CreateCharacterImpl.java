@@ -38,12 +38,12 @@ public class CreateCharacterImpl implements CreateCharacter {
             newCharacter ->
                 not(
                     characterRepository.existsByAccountIdAndCharacterName(
-                        account.id(), newCharacter.name())))
+                        account.id(), newCharacter.biography().name())))
         .switchIfEmpty(Mono.error(new CharacterNameAlreadyExistsException()))
         .map(
             newCharacter ->
                 characterCreator.create(
-                    newCharacter.name(),
+                    newCharacter.biography(),
                     newCharacter.attributes(),
                     type,
                     newCharacter.characterClass(),

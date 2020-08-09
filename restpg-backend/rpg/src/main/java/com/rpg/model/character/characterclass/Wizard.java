@@ -12,7 +12,7 @@ public class Wizard extends Character {
 
   public Wizard(
       UUID id,
-      String name,
+      Biography biography,
       Integer level,
       ActionPoints healthPoints,
       ActionPoints magicPoints,
@@ -25,7 +25,7 @@ public class Wizard extends Character {
       List<Skill> skills) {
     super(
         id,
-        name,
+        biography,
         level,
         healthPoints,
         magicPoints,

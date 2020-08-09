@@ -1,19 +1,25 @@
 package com.rpg.model.character;
 
+import com.rpg.model.item.Equipment;
 import com.rpg.model.item.Item;
 
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class Character {
 
   @NotNull private final UUID id;
 
-  @Size(min = 4, max = 20)
-  private final String name;
+  @NotNull @Valid private final Biography biography;
 
   @Min(value = 1)
   @Max(value = 100)
@@ -35,7 +41,7 @@ public abstract class Character {
 
   public Character(
       UUID id,
-      String name,
+      Biography biography,
       Integer level,
       ActionPoints healthPoints,
       ActionPoints magicPoints,
@@ -47,7 +53,7 @@ public abstract class Character {
       CharacterEquipment equipment,
       List<Skill> skills) {
     this.id = id;
-    this.name = name;
+    this.biography = biography;
     this.level = level;
     this.healthPoints = healthPoints;
     this.magicPoints = magicPoints;
@@ -63,29 +69,39 @@ public abstract class Character {
   public abstract CharacterClass characterClass();
 
   public BigInteger attackPower() {
-    final var totalCharacterStrength = attributes.strength();
-    final var weaponEquipmentAttack = equipment.weapon().bonus().attack();
-    final var headEquipmentAttack = equipment.head().bonus().attack();
-    final var bodyEquipmentAttack = equipment.body().bonus().attack();
-    final var accessoryEquipmentAttack = equipment.accessory().bonus().attack();
-    return totalCharacterStrength
-        .add(weaponEquipmentAttack)
-        .add(headEquipmentAttack)
-        .add(bodyEquipmentAttack)
-        .add(accessoryEquipmentAttack);
+    final var characterStrength = attributes.strength();
+    return characterStrength.add(equippedAttackSum());
   }
 
   public BigInteger defensePower() {
-    // TODO
-    return null;
+    final var characterConstitution = attributes.constitution();
+    return characterConstitution.add(equippedDefenceSum());
+  }
+
+  private BigInteger equippedAttackSum() {
+    return equipped().stream()
+        .map(equip -> equip.bonus().attack())
+        .reduce(BigInteger.ZERO, BigInteger::add);
+  }
+
+  private BigInteger equippedDefenceSum() {
+    return equipped().stream()
+        .map(equip -> equip.bonus().defence())
+        .reduce(BigInteger.ZERO, BigInteger::add);
+  }
+
+  private List<Equipment> equipped() {
+    return Stream.of(equipment.weapon(), equipment.head(), equipment.body(), equipment.accessory())
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
   }
 
   public UUID id() {
     return id;
   }
 
-  public String name() {
-    return name;
+  public Biography biography() {
+    return biography;
   }
 
   public Integer level() {
