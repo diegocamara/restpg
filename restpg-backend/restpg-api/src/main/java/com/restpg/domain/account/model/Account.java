@@ -1,7 +1,5 @@
 package com.restpg.domain.account.model;
 
-import com.restpg.infrastructure.web.security.Role;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
 package com.restpg.application.web.service;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.restpg.infrastructure.web.security.Role;
+import com.restpg.domain.account.model.Role;
 import reactor.core.publisher.Mono;
 
 import java.util.List;

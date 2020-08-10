@@ -1,4 +1,4 @@
-package com.restpg.infrastructure.web.security;
+package com.restpg.domain.account.model;
 
 public enum Role {
   ROLE_USER,

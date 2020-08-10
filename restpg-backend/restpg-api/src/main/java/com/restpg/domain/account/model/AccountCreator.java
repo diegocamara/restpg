@@ -1,6 +1,5 @@
 package com.restpg.domain.account.model;
 
-import com.restpg.infrastructure.web.security.Role;
 import com.rpg.validator.ModelValidator;
 
 import java.util.UUID;

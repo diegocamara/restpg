@@ -1,7 +1,5 @@
 package com.restpg.domain.account.model;
 
-import com.restpg.infrastructure.web.security.Role;
-
 public class NewAccount {
 
   private final String username;

@@ -1,7 +1,7 @@
 package com.restpg.application.web.model.request;
 
 import com.restpg.domain.account.model.NewAccount;
-import com.restpg.infrastructure.web.security.Role;
+import com.restpg.domain.account.model.Role;
 import lombok.Data;
 
 @Data

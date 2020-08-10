@@ -1,6 +1,7 @@
 package com.restpg.infrastructure.web.security;
 
 import com.restpg.application.web.service.JwtService;
+import com.restpg.domain.account.model.Role;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
