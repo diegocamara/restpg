@@ -10,8 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.util.Collections;
-
 @AllArgsConstructor
 @RestController
 @RequestMapping("/v1/signup")
@@ -24,11 +22,11 @@ public class SignupController {
   @ResponseStatus(HttpStatus.CREATED)
   public Mono<SignupResponse> signUp(@RequestBody SignupRequest signupRequest) {
     return createAccount
-        .handle(signupRequest.toNewAccount())
+        .handle(signupRequest.toNewAccount(Role.ROLE_USER))
         .flatMap(
             account ->
                 jwtService
-                    .sign(account.id().toString(), Collections.singletonList(Role.ROLE_USER))
+                    .sign(account.id().toString(), account.roles())
                     .map(token -> new SignupResponse(account.username(), token)));
   }
 }

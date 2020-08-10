@@ -23,7 +23,11 @@ public class CreateAccountImpl implements CreateAccount {
   @Override
   public Mono<Account> handle(NewAccount newAccount) {
     return Mono.just(
-            accountCreator.create(newAccount.username(), newAccount.email(), newAccount.password()))
+            accountCreator.create(
+                newAccount.username(),
+                newAccount.email(),
+                newAccount.password(),
+                newAccount.roles()))
         .flatMap(
             accountToStore ->
                 Mono.just(accountToStore)

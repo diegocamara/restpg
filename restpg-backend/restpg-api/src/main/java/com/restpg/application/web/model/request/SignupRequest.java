@@ -1,6 +1,7 @@
 package com.restpg.application.web.model.request;
 
 import com.restpg.domain.account.model.NewAccount;
+import com.restpg.infrastructure.web.security.Role;
 import lombok.Data;
 
 @Data
@@ -9,7 +10,7 @@ public class SignupRequest {
   private String email;
   private String password;
 
-  public NewAccount toNewAccount() {
-    return new NewAccount(username, email, password);
+  public NewAccount toNewAccount(Role... roles) {
+    return new NewAccount(username, email, password, roles);
   }
 }

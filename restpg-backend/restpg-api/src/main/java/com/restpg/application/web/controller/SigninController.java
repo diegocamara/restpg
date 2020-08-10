@@ -4,13 +4,10 @@ import com.restpg.application.web.model.request.SigninRequet;
 import com.restpg.application.web.model.response.SigninResponse;
 import com.restpg.application.web.service.JwtService;
 import com.restpg.domain.account.reactive.feature.FindAccount;
-import com.restpg.infrastructure.web.security.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import static java.util.Collections.singletonList;
 
 @AllArgsConstructor
 @RestController
@@ -28,7 +25,7 @@ public class SigninController {
         .flatMap(
             account ->
                 jwtService
-                    .sign(account.id().toString(), singletonList(Role.ROLE_USER))
+                    .sign(account.id().toString(), account.roles())
                     .map(token -> new SigninResponse(account.username(), token)));
   }
 }
