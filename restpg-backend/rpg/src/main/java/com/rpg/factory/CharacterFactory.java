@@ -1,11 +1,11 @@
 package com.rpg.factory;
 
 import com.rpg.model.character.Character;
-import com.rpg.model.character.NewCharacter;
+import com.rpg.model.character.NewHero;
 
-public class CharacterFactory implements AbstractFactory<NewCharacter, Character> {
+public class CharacterFactory implements AbstractFactory<NewHero, Character> {
   @Override
-  public Character create(NewCharacter newCharacter) {
+  public Character create(NewHero newHero) {
     return null;
   }
 }

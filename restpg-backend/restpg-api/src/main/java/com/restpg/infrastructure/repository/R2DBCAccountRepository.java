@@ -114,7 +114,7 @@ public class R2DBCAccountRepository implements AccountRepository {
       final var firstRow = rows.stream().findFirst().orElseThrow();
       final var roles =
           rows.stream()
-              .map(row -> Role.valueOf(row.get("ROLE", String.class)))
+              .map(row -> Role.valueOf(row.get("role", String.class)))
               .toArray(Role[]::new);
       return from(firstRow, roles);
     };

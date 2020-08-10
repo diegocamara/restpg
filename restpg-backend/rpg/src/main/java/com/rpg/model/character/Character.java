@@ -33,8 +33,6 @@ public abstract class Character {
   @DecimalMin(value = "0")
   private final BigInteger gold;
 
-  @NotNull private final Type type;
-
   @NotNull private final List<Item> items;
   @NotNull private final CharacterEquipment equipment;
   @NotNull private final List<Skill> skills;
@@ -48,7 +46,6 @@ public abstract class Character {
       Attributes attributes,
       Experience experience,
       BigInteger gold,
-      Type type,
       List<Item> items,
       CharacterEquipment equipment,
       List<Skill> skills) {
@@ -60,13 +57,10 @@ public abstract class Character {
     this.attributes = attributes;
     this.experience = experience;
     this.gold = gold;
-    this.type = type;
     this.items = items;
     this.equipment = equipment;
     this.skills = skills;
   }
-
-  public abstract CharacterClass characterClass();
 
   public BigInteger attackPower() {
     final var characterStrength = attributes.strength();
@@ -126,10 +120,6 @@ public abstract class Character {
 
   public BigInteger gold() {
     return gold;
-  }
-
-  public Type type() {
-    return type;
   }
 
   public List<Item> items() {
