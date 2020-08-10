@@ -28,7 +28,6 @@ public abstract class Character {
   @NotNull @Valid private final ActionPoints healthPoints;
   @NotNull @Valid private final ActionPoints magicPoints;
   @NotNull @Valid private final Attributes attributes;
-  @NotNull @Valid private final Experience experience;
 
   @DecimalMin(value = "0")
   private final BigInteger gold;
@@ -44,7 +43,6 @@ public abstract class Character {
       ActionPoints healthPoints,
       ActionPoints magicPoints,
       Attributes attributes,
-      Experience experience,
       BigInteger gold,
       List<Item> items,
       CharacterEquipment equipment,
@@ -55,7 +53,6 @@ public abstract class Character {
     this.healthPoints = healthPoints;
     this.magicPoints = magicPoints;
     this.attributes = attributes;
-    this.experience = experience;
     this.gold = gold;
     this.items = items;
     this.equipment = equipment;
@@ -112,10 +109,6 @@ public abstract class Character {
 
   public Attributes attributes() {
     return attributes;
-  }
-
-  public Experience experience() {
-    return experience;
   }
 
   public BigInteger gold() {

@@ -29,11 +29,11 @@ public class Lancer extends Hero {
         healthPoints,
         magicPoints,
         attributes,
-        experience,
         gold,
         items,
         equipment,
         skills,
-        HeroClass.LANCER);
+        HeroClass.LANCER,
+        experience);
   }
 }

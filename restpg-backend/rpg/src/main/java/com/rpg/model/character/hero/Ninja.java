@@ -28,11 +28,11 @@ public class Ninja extends Hero {
         healthPoints,
         magicPoints,
         attributes,
-        experience,
         gold,
         items,
         equipment,
         skills,
-        HeroClass.NINJA);
+        HeroClass.NINJA,
+        experience);
   }
 }

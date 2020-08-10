@@ -29,11 +29,11 @@ public class Ranger extends Hero {
         healthPoints,
         magicPoints,
         attributes,
-        experience,
         gold,
         items,
         equipment,
         skills,
-        HeroClass.RANGER);
+        HeroClass.RANGER,
+        experience);
   }
 }

@@ -28,11 +28,11 @@ public class Fighter extends Hero {
         healthPoints,
         magicPoints,
         attributes,
-        experience,
         gold,
         items,
         equipment,
         skills,
-        HeroClass.FIGHTER);
+        HeroClass.FIGHTER,
+        experience);
   }
 }

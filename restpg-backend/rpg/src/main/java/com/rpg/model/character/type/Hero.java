@@ -11,6 +11,7 @@ import java.util.UUID;
 public abstract class Hero extends Character {
 
   private final HeroClass heroClass;
+  private final Experience experience;
 
   protected Hero(
       UUID id,
@@ -19,12 +20,12 @@ public abstract class Hero extends Character {
       ActionPoints healthPoints,
       ActionPoints magicPoints,
       Attributes attributes,
-      Experience experience,
       BigInteger gold,
       List<Item> items,
       CharacterEquipment equipment,
       List<Skill> skills,
-      HeroClass heroClass) {
+      HeroClass heroClass,
+      Experience experience) {
     super(
         id,
         biography,
@@ -32,15 +33,19 @@ public abstract class Hero extends Character {
         healthPoints,
         magicPoints,
         attributes,
-        experience,
         gold,
         items,
         equipment,
         skills);
     this.heroClass = heroClass;
+    this.experience = experience;
   }
 
   public HeroClass heroClass() {
     return heroClass;
+  }
+
+  public Experience experience() {
+    return experience;
   }
 }

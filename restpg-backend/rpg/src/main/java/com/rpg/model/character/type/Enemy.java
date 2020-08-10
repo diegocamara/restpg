@@ -10,6 +10,8 @@ import java.util.UUID;
 
 public class Enemy extends Character {
 
+  private final BigInteger baseExperience;
+
   protected Enemy(
       UUID id,
       Biography biography,
@@ -17,11 +19,11 @@ public class Enemy extends Character {
       ActionPoints healthPoints,
       ActionPoints magicPoints,
       Attributes attributes,
-      Experience experience,
       BigInteger gold,
       List<Item> items,
       CharacterEquipment equipment,
-      List<Skill> skills) {
+      List<Skill> skills,
+      BigInteger baseExperience) {
     super(
         id,
         biography,
@@ -29,10 +31,14 @@ public class Enemy extends Character {
         healthPoints,
         magicPoints,
         attributes,
-        experience,
         gold,
         items,
         equipment,
         skills);
+    this.baseExperience = baseExperience;
+  }
+
+  public BigInteger baseExperience() {
+    return baseExperience;
   }
 }

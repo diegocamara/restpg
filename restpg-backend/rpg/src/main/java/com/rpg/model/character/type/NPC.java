@@ -8,7 +8,7 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
-public abstract class NPC extends Character {
+public class NPC extends Character {
 
   protected NPC(
       UUID id,
@@ -17,7 +17,6 @@ public abstract class NPC extends Character {
       ActionPoints healthPoints,
       ActionPoints magicPoints,
       Attributes attributes,
-      Experience experience,
       BigInteger gold,
       List<Item> items,
       CharacterEquipment equipment,
@@ -29,7 +28,6 @@ public abstract class NPC extends Character {
         healthPoints,
         magicPoints,
         attributes,
-        experience,
         gold,
         items,
         equipment,
