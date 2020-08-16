@@ -2,6 +2,7 @@ package com.rpg.model.character.hero;
 
 import com.rpg.model.character.*;
 import com.rpg.model.character.type.Hero;
+import com.rpg.model.character.type.HeroBonus;
 import com.rpg.model.item.Item;
 
 import java.math.BigInteger;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Ninja extends Hero {
+
   public Ninja(
       UUID id,
       Biography biography,
@@ -34,5 +36,10 @@ public class Ninja extends Hero {
         skills,
         HeroClass.NINJA,
         experience);
+  }
+
+  @Override
+  protected HeroBonus heroBonus() {
+    return null;
   }
 }

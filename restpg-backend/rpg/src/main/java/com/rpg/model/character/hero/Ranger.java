@@ -2,6 +2,7 @@ package com.rpg.model.character.hero;
 
 import com.rpg.model.character.*;
 import com.rpg.model.character.type.Hero;
+import com.rpg.model.character.type.HeroBonus;
 import com.rpg.model.item.Item;
 
 import java.math.BigInteger;
@@ -35,5 +36,10 @@ public class Ranger extends Hero {
         skills,
         HeroClass.RANGER,
         experience);
+  }
+
+  @Override
+  protected HeroBonus heroBonus() {
+    return null;
   }
 }

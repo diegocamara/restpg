@@ -26,11 +26,8 @@ public class HeroCreator {
       Integer level) {
 
     final var id = UUID.randomUUID();
-    final var initialHealthPoints = BigInteger.valueOf(100);
-    final var initialMagicPoints = BigInteger.valueOf(20);
-    final var healthPoints = new ActionPoints(initialHealthPoints, initialHealthPoints);
-    final var magicPoints = new ActionPoints(initialMagicPoints, initialMagicPoints);
-    final var experience = new Experience(BigInteger.ZERO, BigInteger.valueOf(10));
+
+    final var experience = Experience.from(level);
 
     final var hero =
         byHeroClass(
@@ -38,14 +35,16 @@ public class HeroCreator {
             id,
             biography,
             level,
-            healthPoints,
-            magicPoints,
+            new ActionPoints(),
+            new ActionPoints(),
             attributes,
             experience,
             gold,
             new LinkedList<>(),
             new CharacterEquipment(),
             new LinkedList<>());
+
+    hero.applyAttributeBonus();
 
     return modelValidator.validate(hero);
   }
