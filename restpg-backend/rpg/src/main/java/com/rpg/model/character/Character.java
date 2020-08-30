@@ -59,12 +59,19 @@ public abstract class Character {
     this.skills = skills;
   }
 
-  public BigInteger attackPower() {
+  public Stats stats() {
+    final var stats =
+        new Stats(healthPoints, magicPoints, attributes, attackPower(), defensePower());
+    // Apply modifiers
+    return stats;
+  }
+
+  private BigInteger attackPower() {
     final var characterStrength = attributes.strength();
     return characterStrength.add(equippedAttackSum());
   }
 
-  public BigInteger defensePower() {
+  private BigInteger defensePower() {
     final var characterConstitution = attributes.constitution();
     return characterConstitution.add(equippedDefenceSum());
   }
@@ -99,15 +106,15 @@ public abstract class Character {
     return level;
   }
 
-  public ActionPoints healthPoints() {
+  protected ActionPoints healthPoints() {
     return healthPoints;
   }
 
-  public ActionPoints magicPoints() {
+  protected ActionPoints magicPoints() {
     return magicPoints;
   }
 
-  public Attributes attributes() {
+  protected Attributes attributes() {
     return attributes;
   }
 

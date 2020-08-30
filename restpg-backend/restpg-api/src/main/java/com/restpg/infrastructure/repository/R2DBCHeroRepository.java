@@ -45,6 +45,7 @@ public class R2DBCHeroRepository implements HeroRepository {
 
     final var account = accountHero.account();
     final var hero = accountHero.hero();
+    final var stats = hero.stats();
 
     return databaseClient
         .insert()
@@ -55,16 +56,16 @@ public class R2DBCHeroRepository implements HeroRepository {
         .value("hero_level", hero.level())
         .value("current_experience", hero.experience().current().longValue())
         .value("next_experience", hero.experience().next().longValue())
-        .value("current_health_points", hero.healthPoints().current().longValue())
-        .value("max_health_points", hero.healthPoints().max().longValue())
-        .value("current_magic_points", hero.magicPoints().current().longValue())
-        .value("max_magic_points", hero.magicPoints().max().longValue())
-        .value("strength", hero.attributes().strength().longValue())
-        .value("constitution", hero.attributes().constitution().longValue())
-        .value("dexterity", hero.attributes().dexterity().longValue())
-        .value("intelligence", hero.attributes().intelligence().longValue())
-        .value("wisdom", hero.attributes().wisdom().longValue())
-        .value("charisma", hero.attributes().charisma().longValue())
+        .value("current_health_points", stats.healthPoints().current().longValue())
+        .value("max_health_points", stats.healthPoints().max().longValue())
+        .value("current_magic_points", stats.magicPoints().current().longValue())
+        .value("max_magic_points", stats.magicPoints().max().longValue())
+        .value("strength", stats.attributes().strength().longValue())
+        .value("constitution", stats.attributes().constitution().longValue())
+        .value("dexterity", stats.attributes().dexterity().longValue())
+        .value("intelligence", stats.attributes().intelligence().longValue())
+        .value("wisdom", stats.attributes().wisdom().longValue())
+        .value("charisma", stats.attributes().charisma().longValue())
         .value("gold", hero.gold().longValue())
         .value("hero_class", hero.heroClass().name())
         .value("account_id", account.id().toString())

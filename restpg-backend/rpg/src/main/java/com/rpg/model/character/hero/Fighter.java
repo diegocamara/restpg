@@ -9,19 +9,22 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.IntStream;
 
 public class Fighter extends Hero {
 
-  public static final HeroBonus fighterAttributeBonus;
+  public static final HeroBonus attributeBonus;
+  public static final BigDecimal baseHealthPoints = BigDecimal.valueOf(80);
+  public static final BigDecimal baseMagicPoints = BigDecimal.valueOf(10);
 
   static {
     final var strength = BigDecimal.valueOf(4);
     final var constitution = BigDecimal.valueOf(0.2);
     final var dexterity = BigDecimal.valueOf(1);
     final var intelligence = BigDecimal.valueOf(1);
-    final var wisdom = BigDecimal.valueOf(1);
+    final var wisdom = BigDecimal.valueOf(0.2);
     final var charisma = BigDecimal.valueOf(2);
-    fighterAttributeBonus =
+    attributeBonus =
         new HeroBonus(strength, constitution, dexterity, intelligence, wisdom, charisma);
   }
 
@@ -54,6 +57,28 @@ public class Fighter extends Hero {
 
   @Override
   protected HeroBonus heroBonus() {
-    return fighterAttributeBonus;
+    return attributeBonus;
+  }
+
+  @Override
+  protected BigDecimal baseHealthPoints() {
+    return baseHealthPoints;
+  }
+
+  @Override
+  protected BigDecimal baseMagicPoints() {
+    return baseMagicPoints;
+  }
+
+  public static void main(String[] args) {
+
+    IntStream.range(1, 99)
+        .forEach(
+            level -> {
+              final var exponent = Math.pow(level, 0.1);
+              final var result = 80 * exponent;
+              System.out.println(
+                  String.format("level: %d, exponent: %f, result: %f", level, exponent, result));
+            });
   }
 }

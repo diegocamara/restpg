@@ -5,6 +5,7 @@ import com.rpg.model.character.type.Hero;
 import com.rpg.model.character.type.HeroBonus;
 import com.rpg.model.item.Item;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
@@ -40,6 +41,16 @@ public class Lancer extends Hero {
 
   @Override
   protected HeroBonus heroBonus() {
+    return null;
+  }
+
+  @Override
+  protected BigDecimal baseHealthPoints() {
+    return null;
+  }
+
+  @Override
+  protected BigDecimal baseMagicPoints() {
     return null;
   }
 }

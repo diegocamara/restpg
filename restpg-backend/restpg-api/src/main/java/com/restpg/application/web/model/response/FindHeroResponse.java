@@ -30,10 +30,11 @@ public class FindHeroResponse {
 
   public static FindHeroResponse from(Hero hero) {
     final var biography = BiographyDTO.from(hero.biography());
-    final var healthPoints = ActionPointsDTO.from(hero.healthPoints());
-    final var magicPoints = ActionPointsDTO.from(hero.magicPoints());
+    final var stats = hero.stats();
+    final var healthPoints = ActionPointsDTO.from(stats.healthPoints());
+    final var magicPoints = ActionPointsDTO.from(stats.magicPoints());
     final var attributes =
-        AttributesDTO.from(hero.attributes(), hero.attackPower(), hero.defensePower());
+        AttributesDTO.from(stats.attributes(), stats.attackPower(), stats.defensePower());
     final var experience = ExperienceDTO.from(hero.experience());
     return new FindHeroResponse(
         hero.id(),

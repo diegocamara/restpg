@@ -12,8 +12,6 @@ import java.util.UUID;
 
 public abstract class Hero extends Character {
 
-  private final BigDecimal baseHealthPoints = BigDecimal.valueOf(80);
-
   private final HeroClass heroClass;
   private final Experience experience;
 
@@ -47,20 +45,37 @@ public abstract class Hero extends Character {
 
   protected abstract HeroBonus heroBonus();
 
+  protected abstract BigDecimal baseHealthPoints();
+
+  protected abstract BigDecimal baseMagicPoints();
+
   public void applyAttributeBonus() {
     applyHealthPointsBonus();
+    applyMagicPointsBonus();
   }
 
   private void applyHealthPointsBonus() {
     final var constitution = heroBonus().constitution();
     final var levelMaxHealthPoints =
-        baseHealthPoints
+        baseHealthPoints()
             .multiply(BigDecimal.valueOf(Math.pow(level().longValue(), constitution.longValue())))
             .setScale(0, RoundingMode.FLOOR)
             .toBigInteger();
     final var currentHealthPoints = healthPoints();
     currentHealthPoints.addToCurrent(levelMaxHealthPoints);
     currentHealthPoints.addToMax(levelMaxHealthPoints);
+  }
+
+  private void applyMagicPointsBonus() {
+    var wisdom = heroBonus().wisdom();
+    final var levelMaxMagicPoints =
+        baseMagicPoints()
+            .multiply(BigDecimal.valueOf(Math.pow(level().longValue(), wisdom.longValue())))
+            .setScale(0, RoundingMode.FLOOR)
+            .toBigInteger();
+    final var currentMagicPoints = magicPoints();
+    currentMagicPoints.addToCurrent(levelMaxMagicPoints);
+    currentMagicPoints.addToMax(levelMaxMagicPoints);
   }
 
   //  protected abstract List<Modifier<Hero>> classModifiers();
