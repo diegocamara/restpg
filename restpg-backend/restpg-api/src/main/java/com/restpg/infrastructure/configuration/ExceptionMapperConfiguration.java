@@ -4,6 +4,7 @@ import com.restpg.domain.account.exception.IncorrectEmailOrPasswordException;
 import com.restpg.domain.account.exception.UsernameOrEmailAlreadyExistsException;
 import com.restpg.domain.hero.exception.HeroNameAlreadyExistsException;
 import com.restpg.domain.hero.exception.HeroNotFoundException;
+import com.rpg.exception.MaximumLevelReachedException;
 import com.rpg.exception.ModelValidationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ public class ExceptionMapperConfiguration {
         put(HeroNameAlreadyExistsException.class, conflict());
         put(ModelValidationException.class, unprocessableEntity());
         put(HeroNotFoundException.class, notFound());
+        put(MaximumLevelReachedException.class, unprocessableEntity());
       }
     };
   }

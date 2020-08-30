@@ -1,5 +1,10 @@
 package com.rpg.model.item;
 
+import com.rpg.model.character.Stats;
+import com.rpg.model.modifier.Modifier;
+
+import java.util.List;
+
 public abstract class Equipment extends Item {
 
   private final EquipmentAttributes bonus;
@@ -12,4 +17,6 @@ public abstract class Equipment extends Item {
   public EquipmentAttributes bonus() {
     return bonus;
   }
+
+  public abstract List<Modifier<Stats>> modifiers();
 }

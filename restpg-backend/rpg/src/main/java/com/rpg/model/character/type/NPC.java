@@ -33,4 +33,7 @@ public class NPC extends Character {
         equipment,
         skills);
   }
+
+  @Override
+  public void levelUp() {}
 }

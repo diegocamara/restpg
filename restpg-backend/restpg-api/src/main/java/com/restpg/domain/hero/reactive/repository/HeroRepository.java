@@ -12,5 +12,7 @@ public interface HeroRepository {
 
   Mono<AccountHero> store(AccountHero accountHero);
 
+  Mono<AccountHero> update(AccountHero accountHero);
+
   Mono<Hero> findByIdAndAccount(UUID heroId, Account account);
 }

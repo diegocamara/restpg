@@ -6,6 +6,7 @@ import com.restpg.application.web.model.response.NewHeroResponse;
 import com.restpg.domain.account.model.Account;
 import com.restpg.domain.hero.reactive.feature.CreateHero;
 import com.restpg.domain.hero.reactive.feature.FindHero;
+import com.restpg.domain.hero.reactive.feature.LevelUpHero;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class HeroController {
 
   private final CreateHero createHero;
   private final FindHero findHero;
+  private final LevelUpHero levelUpHero;
 
   @PostMapping
   @PreAuthorize("hasAnyRole('USER','ADMIN')")
@@ -34,5 +36,11 @@ public class HeroController {
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public Mono<FindHeroResponse> find(@PathVariable UUID heroId, Account account) {
     return findHero.handle(heroId, account).map(FindHeroResponse::from);
+  }
+
+  @PutMapping("/{heroId}/levelUp")
+  @PreAuthorize("hasRole('ADMIN')")
+  public Mono<FindHeroResponse> levelUp(@PathVariable UUID heroId, Account account) {
+    return levelUpHero.handle(heroId, account).map(FindHeroResponse::from);
   }
 }

@@ -2,6 +2,7 @@ package com.rpg.model.character;
 
 import com.rpg.model.item.Equipment;
 import com.rpg.model.item.Item;
+import com.rpg.model.modifier.Modifier;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigInteger;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -23,10 +25,10 @@ public abstract class Character {
 
   @Min(value = 1)
   @Max(value = 100)
-  private final Integer level;
+  private Integer level;
 
-  @NotNull @Valid private final ActionPoints healthPoints;
-  @NotNull @Valid private final ActionPoints magicPoints;
+  @NotNull @Valid private ActionPoints healthPoints;
+  @NotNull @Valid private ActionPoints magicPoints;
   @NotNull @Valid private final Attributes attributes;
 
   @DecimalMin(value = "0")
@@ -59,10 +61,13 @@ public abstract class Character {
     this.skills = skills;
   }
 
+  public abstract void levelUp();
+
   public Stats stats() {
     final var stats =
         new Stats(healthPoints, magicPoints, attributes, attackPower(), defensePower());
-    // Apply modifiers
+    final var equippedModifiers = equippedModifiers();
+    equippedModifiers.forEach(statsModifier -> statsModifier.apply(stats));
     return stats;
   }
 
@@ -88,6 +93,17 @@ public abstract class Character {
         .reduce(BigInteger.ZERO, BigInteger::add);
   }
 
+  private List<Modifier<Stats>> equippedModifiers() {
+    return equipped().stream()
+        .map(Equipment::modifiers)
+        .reduce(
+            new LinkedList<>(),
+            (partialModifiers, modifiers) -> {
+              partialModifiers.addAll(modifiers);
+              return partialModifiers;
+            });
+  }
+
   private List<Equipment> equipped() {
     return Stream.of(equipment.weapon(), equipment.head(), equipment.body(), equipment.accessory())
         .filter(Objects::nonNull)
@@ -106,12 +122,24 @@ public abstract class Character {
     return level;
   }
 
+  protected void level(Integer level) {
+    this.level = level;
+  }
+
   protected ActionPoints healthPoints() {
     return healthPoints;
   }
 
+  protected void heathPoints(ActionPoints healthPoints) {
+    this.healthPoints = healthPoints;
+  }
+
   protected ActionPoints magicPoints() {
     return magicPoints;
+  }
+
+  protected void magicPoints(ActionPoints magicPoints) {
+    this.magicPoints = magicPoints;
   }
 
   protected Attributes attributes() {

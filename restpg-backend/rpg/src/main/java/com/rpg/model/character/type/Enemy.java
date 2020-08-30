@@ -41,4 +41,7 @@ public class Enemy extends Character {
   public BigInteger baseExperience() {
     return baseExperience;
   }
+
+  @Override
+  public void levelUp() {}
 }

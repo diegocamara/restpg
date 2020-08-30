@@ -21,6 +21,6 @@ public class FindHeroImpl implements FindHero {
   public Mono<Hero> handle(UUID heroId, Account account) {
     return heroRepository
         .findByIdAndAccount(heroId, account)
-        .switchIfEmpty(Mono.error(new HeroNotFoundException()));
+        .switchIfEmpty(Mono.error(HeroNotFoundException::new));
   }
 }

@@ -9,6 +9,7 @@ import com.rpg.model.character.type.HeroCreator;
 import io.r2dbc.spi.Row;
 import lombok.AllArgsConstructor;
 import org.springframework.data.r2dbc.core.DatabaseClient;
+import org.springframework.data.relational.core.query.Update;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
@@ -18,6 +19,7 @@ import java.util.LinkedList;
 import java.util.UUID;
 
 import static java.util.Objects.requireNonNull;
+import static org.springframework.data.relational.core.query.Criteria.where;
 
 @Repository
 @AllArgsConstructor
@@ -69,6 +71,41 @@ public class R2DBCHeroRepository implements HeroRepository {
         .value("gold", hero.gold().longValue())
         .value("hero_class", hero.heroClass().name())
         .value("account_id", account.id().toString())
+        .fetch()
+        .rowsUpdated()
+        .map(rowsUpdated -> accountHero);
+  }
+
+  @Override
+  public Mono<AccountHero> update(AccountHero accountHero) {
+
+    final var account = accountHero.account();
+    final var hero = accountHero.hero();
+    final var stats = hero.stats();
+
+    return databaseClient
+        .update()
+        .table("heroes")
+        .using(
+            Update.update("name", hero.biography().name())
+                .set("name", hero.biography().name())
+                .set("background", hero.biography().background())
+                .set("hero_level", hero.level())
+                .set("current_experience", hero.experience().current().longValue())
+                .set("next_experience", hero.experience().next().longValue())
+                .set("current_health_points", stats.healthPoints().current().longValue())
+                .set("max_health_points", stats.healthPoints().max().longValue())
+                .set("current_magic_points", stats.magicPoints().current().longValue())
+                .set("max_magic_points", stats.magicPoints().max().longValue())
+                .set("strength", stats.attributes().strength().longValue())
+                .set("constitution", stats.attributes().constitution().longValue())
+                .set("dexterity", stats.attributes().dexterity().longValue())
+                .set("intelligence", stats.attributes().intelligence().longValue())
+                .set("wisdom", stats.attributes().wisdom().longValue())
+                .set("charisma", stats.attributes().charisma().longValue())
+                .set("gold", hero.gold().longValue())
+                .set("hero_class", hero.heroClass().name()))
+        .matching(where("id").is(hero.id()).and("account_id").is(account.id().toString()))
         .fetch()
         .rowsUpdated()
         .map(rowsUpdated -> accountHero);

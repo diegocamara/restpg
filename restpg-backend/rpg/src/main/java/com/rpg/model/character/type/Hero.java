@@ -1,5 +1,6 @@
 package com.rpg.model.character.type;
 
+import com.rpg.exception.MaximumLevelReachedException;
 import com.rpg.model.character.Character;
 import com.rpg.model.character.*;
 import com.rpg.model.item.Item;
@@ -12,8 +13,9 @@ import java.util.UUID;
 
 public abstract class Hero extends Character {
 
+  public static final int MAXIMUM_LEVEL = 99;
   private final HeroClass heroClass;
-  private final Experience experience;
+  private Experience experience;
 
   protected Hero(
       UUID id,
@@ -43,6 +45,20 @@ public abstract class Hero extends Character {
     this.experience = experience;
   }
 
+  @Override
+  public void levelUp() {
+    level(level() + 1);
+    validMaximumLevel();
+    applyAttributeBonus();
+    experience(Experience.from(level()));
+  }
+
+  private void validMaximumLevel() {
+    if (level() > MAXIMUM_LEVEL) {
+      throw new MaximumLevelReachedException(id());
+    }
+  }
+
   protected abstract HeroBonus heroBonus();
 
   protected abstract BigDecimal baseHealthPoints();
@@ -58,31 +74,21 @@ public abstract class Hero extends Character {
     final var constitution = heroBonus().constitution();
     final var levelMaxHealthPoints =
         baseHealthPoints()
-            .multiply(BigDecimal.valueOf(Math.pow(level().longValue(), constitution.longValue())))
+            .multiply(BigDecimal.valueOf(Math.pow(level().longValue(), constitution.doubleValue())))
             .setScale(0, RoundingMode.FLOOR)
             .toBigInteger();
-    final var currentHealthPoints = healthPoints();
-    currentHealthPoints.addToCurrent(levelMaxHealthPoints);
-    currentHealthPoints.addToMax(levelMaxHealthPoints);
+    heathPoints(new ActionPoints(levelMaxHealthPoints, levelMaxHealthPoints));
   }
 
   private void applyMagicPointsBonus() {
     var wisdom = heroBonus().wisdom();
     final var levelMaxMagicPoints =
         baseMagicPoints()
-            .multiply(BigDecimal.valueOf(Math.pow(level().longValue(), wisdom.longValue())))
+            .multiply(BigDecimal.valueOf(Math.pow(level().longValue(), wisdom.doubleValue())))
             .setScale(0, RoundingMode.FLOOR)
             .toBigInteger();
-    final var currentMagicPoints = magicPoints();
-    currentMagicPoints.addToCurrent(levelMaxMagicPoints);
-    currentMagicPoints.addToMax(levelMaxMagicPoints);
+    magicPoints(new ActionPoints(levelMaxMagicPoints, levelMaxMagicPoints));
   }
-
-  //  protected abstract List<Modifier<Hero>> classModifiers();
-  //
-  //  private void applyModifiers() {
-  //    classModifiers().forEach(classModifier -> classModifier.apply(this));
-  //  }
 
   public HeroClass heroClass() {
     return heroClass;
@@ -90,5 +96,9 @@ public abstract class Hero extends Character {
 
   public Experience experience() {
     return experience;
+  }
+
+  protected void experience(Experience experience) {
+    this.experience = experience;
   }
 }

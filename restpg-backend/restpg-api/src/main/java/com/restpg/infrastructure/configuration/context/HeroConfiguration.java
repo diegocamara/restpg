@@ -3,8 +3,10 @@ package com.restpg.infrastructure.configuration.context;
 import com.restpg.domain.hero.model.AccountHeroCreator;
 import com.restpg.domain.hero.reactive.feature.CreateHero;
 import com.restpg.domain.hero.reactive.feature.FindHero;
+import com.restpg.domain.hero.reactive.feature.LevelUpHero;
 import com.restpg.domain.hero.reactive.feature.impl.CreateHeroImpl;
 import com.restpg.domain.hero.reactive.feature.impl.FindHeroImpl;
+import com.restpg.domain.hero.reactive.feature.impl.LevelUpHeroImpl;
 import com.restpg.domain.hero.reactive.repository.HeroRepository;
 import com.rpg.model.character.type.HeroCreator;
 import com.rpg.validator.ModelValidator;
@@ -35,5 +37,11 @@ public class HeroConfiguration {
   @Bean
   public HeroCreator heroCreator(ModelValidator modelValidator) {
     return new HeroCreator(modelValidator);
+  }
+
+  @Bean
+  public LevelUpHero levelUpHero(
+      HeroRepository heroRepository, AccountHeroCreator accountHeroCreator) {
+    return new LevelUpHeroImpl(heroRepository, accountHeroCreator);
   }
 }

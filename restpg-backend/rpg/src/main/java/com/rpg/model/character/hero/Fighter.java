@@ -19,7 +19,7 @@ public class Fighter extends Hero {
 
   static {
     final var strength = BigDecimal.valueOf(4);
-    final var constitution = BigDecimal.valueOf(0.2);
+    final var constitution = BigDecimal.valueOf(0.4);
     final var dexterity = BigDecimal.valueOf(1);
     final var intelligence = BigDecimal.valueOf(1);
     final var wisdom = BigDecimal.valueOf(0.2);
@@ -75,10 +75,13 @@ public class Fighter extends Hero {
     IntStream.range(1, 99)
         .forEach(
             level -> {
-              final var exponent = Math.pow(level, 0.1);
-              final var result = 80 * exponent;
+              final var exponent = BigDecimal.valueOf(0.4);
+              final var base = BigDecimal.valueOf(80);
+              final var exponentResult = Math.pow(level, exponent.doubleValue());
+              final var result = base.multiply(BigDecimal.valueOf(exponentResult));
               System.out.println(
-                  String.format("level: %d, exponent: %f, result: %f", level, exponent, result));
+                  String.format(
+                      "level: %d, exponent: %f, result: %f", level, exponentResult, result));
             });
   }
 }

@@ -25,7 +25,7 @@ public class Experience {
     return new Experience(BigInteger.ZERO, nextLevel(level));
   }
 
-  public static BigInteger nextLevel(double level) {
+  private static BigInteger nextLevel(double level) {
     return baseExperience
         .multiply(BigDecimal.valueOf(Math.pow(level, exponent)))
         .setScale(0, RoundingMode.FLOOR)
