@@ -14,6 +14,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -41,7 +42,13 @@ public class GlobalErrorHandler implements ErrorWebExceptionHandler {
 
     if (throwable instanceof RPGException) {
       final var rpgException = (RPGException) throwable;
-      rpgExceptionMap.get(rpgException.getClass()).accept(serverWebExchange);
+      final var serverWebExchangeConsumer =
+          Optional.ofNullable(rpgExceptionMap.get(rpgException.getClass()));
+
+      serverWebExchangeConsumer
+          .orElseGet(this::httpStatusNotMappedSupplier)
+          .accept(serverWebExchange);
+
       dataBuffer = dataBuffer(dataBufferFactory, () -> ErrorResponse.from(rpgException));
     } else {
       serverWebExchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -61,5 +68,17 @@ public class GlobalErrorHandler implements ErrorWebExceptionHandler {
       dataBuffer = dataBufferFactory.wrap("".getBytes());
     }
     return dataBuffer;
+  }
+
+  private Consumer<ServerWebExchange> httpStatusNotMappedSupplier() {
+    return this::configHttpStatusResponseInternalServerError;
+  }
+
+  private void configHttpStatusResponseInternalServerError(ServerWebExchange serverWebExchange) {
+    configHttpStatus(serverWebExchange, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  private void configHttpStatus(ServerWebExchange serverWebExchange, HttpStatus httpStatus) {
+    serverWebExchange.getResponse().setStatusCode(httpStatus);
   }
 }

@@ -12,6 +12,21 @@ import java.util.UUID;
 
 public class Lancer extends Hero {
 
+  public static final HeroBonus attributeBonus;
+  public static final BigDecimal baseHealthPoints = BigDecimal.valueOf(80);
+  public static final BigDecimal baseMagicPoints = BigDecimal.valueOf(10);
+
+  static {
+    final var strength = BigDecimal.valueOf(0.7);
+    final var constitution = BigDecimal.valueOf(0.5);
+    final var dexterity = BigDecimal.valueOf(0.5);
+    final var intelligence = BigDecimal.valueOf(0.6);
+    final var wisdom = BigDecimal.valueOf(0.4);
+    final var charisma = BigDecimal.valueOf(0.5);
+    attributeBonus =
+        new HeroBonus(strength, constitution, dexterity, intelligence, wisdom, charisma);
+  }
+
   public Lancer(
       UUID id,
       Biography biography,
@@ -41,16 +56,16 @@ public class Lancer extends Hero {
 
   @Override
   protected HeroBonus heroBonus() {
-    return null;
+    return attributeBonus;
   }
 
   @Override
   protected BigDecimal baseHealthPoints() {
-    return null;
+    return baseHealthPoints;
   }
 
   @Override
   protected BigDecimal baseMagicPoints() {
-    return null;
+    return baseMagicPoints;
   }
 }

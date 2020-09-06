@@ -18,12 +18,12 @@ public class Fighter extends Hero {
   public static final BigDecimal baseMagicPoints = BigDecimal.valueOf(10);
 
   static {
-    final var strength = BigDecimal.valueOf(4);
+    final var strength = BigDecimal.valueOf(0.8);
     final var constitution = BigDecimal.valueOf(0.4);
-    final var dexterity = BigDecimal.valueOf(1);
-    final var intelligence = BigDecimal.valueOf(1);
+    final var dexterity = BigDecimal.valueOf(0.3);
+    final var intelligence = BigDecimal.valueOf(0.2);
     final var wisdom = BigDecimal.valueOf(0.2);
-    final var charisma = BigDecimal.valueOf(2);
+    final var charisma = BigDecimal.valueOf(0.4);
     attributeBonus =
         new HeroBonus(strength, constitution, dexterity, intelligence, wisdom, charisma);
   }

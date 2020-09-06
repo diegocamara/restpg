@@ -1,5 +1,6 @@
 package com.rpg.model.character.type;
 
+import com.rpg.exception.HeroClassNotProvidedException;
 import com.rpg.model.character.*;
 import com.rpg.model.character.hero.*;
 import com.rpg.model.item.Item;
@@ -25,6 +26,8 @@ public class HeroCreator {
       BigInteger gold,
       Integer level) {
 
+    validateHeroClass(heroClass);
+
     final var id = UUID.randomUUID();
 
     final var experience = Experience.from(level);
@@ -47,6 +50,12 @@ public class HeroCreator {
     hero.applyAttributeBonus();
 
     return modelValidator.validate(hero);
+  }
+
+  private void validateHeroClass(HeroClass heroClass) {
+    if (heroClass == null) {
+      throw new HeroClassNotProvidedException();
+    }
   }
 
   public Hero create(
